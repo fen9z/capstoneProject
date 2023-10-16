@@ -1,6 +1,6 @@
 #first get int to server folder:
     npm install
-    npm server.js
+    npm run dev
 
 #then get into client folder:
     npm install
