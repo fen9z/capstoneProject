@@ -32,8 +32,8 @@ header a {
   margin: 0 auto;
 }
 
-/* homepage */
-.home {
+/* holdpage */
+.hold {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 100px;
@@ -100,4 +100,26 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+
+/* homepage */
+.home {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 100px;
+}
+.card {
+  background: #fff;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Chatpage */
+.chat {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 100px;
 }

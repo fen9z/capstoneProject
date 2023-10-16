@@ -4,7 +4,7 @@ const Navber = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h1>Workout Buddy</h1>
+          <h1>staples</h1>
         </Link>
       </div>
     </header>

@@ -4,9 +4,8 @@ import { useEffect } from 'react';
 // components
 // import WorkoutDetails from '../components/WorkoutDetails';
 // import WorkoutForm from '../components/WorkoutForm';
-import Card from '../components/card';
 
-const Home = () => {
+const Chat = () => {
   // const { workouts, dispatch } = useWorkoutsContext();
 
   useEffect(() => {
@@ -14,26 +13,18 @@ const Home = () => {
     //   const response = await fetch('/api/workouts');
     //   const json = await response.json();
     //   if (response.ok) {
-    //     // dispatch({ type: 'SET_WORKOUTS', payload: json });
+    //     dispatch({ type: 'SET_WORKOUTS', payload: json });
     //   }
     // };
     // fetchWorkouts();
   }, []);
 
   return (
-    <div className="home">
-      {/* <div className="workouts">
-        {workouts &&
-          workouts.map((workout) => (
-            <WorkoutDetails workout={workout} key={workout._id} />
-          ))}
-      </div>
-      <WorkoutForm /> */}
-      <Card card={'Hold'} />
-      <Card card={'Booking'} />
-      <Card card={'Chat'} />
+    <div className="chat">
+      <h1>Chat</h1>
+      <textarea rows={20}></textarea>
     </div>
   );
 };
 
-export default Home;
+export default Chat;
