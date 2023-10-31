@@ -1,6 +1,8 @@
 # first please install node.js version 18
-# for local dev install nodemon
-    npm install -g nodemon
+
+# second for local dev install nodemon, get into server folder
+    cd server
+    npm install nodemon --save-dev
 
 # get int to server folder:
     npm install
