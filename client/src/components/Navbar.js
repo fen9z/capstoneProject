@@ -24,6 +24,12 @@ const Navber = () => {
               <button style={{border:'1px solid #c00',color:"#c00"}} onClick={handleClick}>log out</button>
             </div>
           )}
+
+          {user && user.isAdmin && (
+            // Add admin panel link for admin users
+            <Link to="/admin">Admin</Link>
+          )}
+
           {!user && (
             <div>
               <Link to="/login">Login</Link>
