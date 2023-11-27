@@ -8,6 +8,7 @@ import Booking from './pages/Booking';
 import Chat from './pages/Chat';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AdminPanel from './pages/admin/AdminPanel';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -39,6 +40,13 @@ function App() {
             <Route
               path="/Chat"
               element={user ? <Chat /> : <Navigate to="/login" />}
+            />
+            {/* Add admin panel route */}
+            <Route
+              path="/admin/*"
+              element={
+                user && user.isAdmin ? <AdminPanel /> : <Navigate to="/" />
+              }
             />
           </Routes>
         </div>
