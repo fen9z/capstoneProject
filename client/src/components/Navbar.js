@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
+import "../style/navbar.css"
 
 const Navber = () => {
   const { logout } = useLogout();
@@ -12,15 +13,15 @@ const Navber = () => {
 
   return (
     <header>
-      <div className="container">
+      <div className="container nav" >
         <Link to="/">
-          <h1>staples</h1>
+          <h1 style={{color:"white"}}>staples</h1>
         </Link>
         <nav>
           {user && (
             <div>
-              <span>{user.email}</span>
-              <button onClick={handleClick}>log out</button>
+              <span style={{marginRight:"10px", color:"white"}}>{user.email}</span>
+              <button style={{border:'1px solid #c00',color:"#c00"}} onClick={handleClick}>log out</button>
             </div>
           )}
 

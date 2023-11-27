@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import '../style/home.css'
 // import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 
 // components
@@ -21,7 +22,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home">
+    <div >
       {/* <div className="workouts">
         {workouts &&
           workouts.map((workout) => (
@@ -29,9 +30,26 @@ const Home = () => {
           ))}
       </div>
       <WorkoutForm /> */}
+    
+  <div className="search">
+    <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Search  Store" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+  <div class="input-group-append">
+    <button class="btn btn-danger" type="button">Search</button>
+  </div>
+  </div>
+  
+  </div>
+  
+
+
+     
+
+<div className='home'>
       <Card card={'Hold'} />
       <Card card={'Booking'} />
       <Card card={'Chat'} />
+      </div> 
     </div>
   );
 };
