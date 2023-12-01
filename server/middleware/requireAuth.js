@@ -14,7 +14,10 @@ const requireAuth = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
 
-    req.user = await User.findOne({ _id }).select('_id');
+    // find user by id and password not send
+    req.user = await User.findOne({ _id }).select(
+      '-password -createdAt -isAdmin -updatedAt -__v'
+    );
     next();
   } catch (error) {
     console.log(error);

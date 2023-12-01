@@ -6,7 +6,14 @@ export const useSignup = () => {
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
 
-  const signup = async (email, password, name, address, postalCode) => {
+  const signup = async (
+    email,
+    password,
+    firstName,
+    lastName,
+    address,
+    postalCode
+  ) => {
     setIsLoading(true);
     setError(null);
 
@@ -16,7 +23,8 @@ export const useSignup = () => {
       body: JSON.stringify({
         email,
         password,
-        name,
+        firstName,
+        lastName,
         address,
         postalCode,
       }),

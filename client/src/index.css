@@ -90,6 +90,12 @@ form button {
   border-radius: 4px;
   cursor: pointer;
 }
+div.success {
+  color: #28a745; /* Green color for success messages */
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
 div.error {
   padding: 10px;
   background: #ffefef;

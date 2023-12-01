@@ -24,10 +24,18 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  const { email, password, name, address, postalCode } = req.body;
+  const { email, password, firstName, lastName, address, postalCode } =
+    req.body;
 
   try {
-    const user = await User.signup(email, password, name, address, postalCode);
+    const user = await User.signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      address,
+      postalCode
+    );
 
     // create a token
     const token = createToken(user._id);
@@ -38,7 +46,7 @@ const signupUser = async (req, res) => {
   }
 };
 
-// get all users
+// get all users and filter, but only for admin
 const getUsers = async (req, res) => {
   try {
     let filter = req.query.filter || ''; // from url get filter parameter
@@ -58,4 +66,15 @@ const getUsers = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser, getUsers };
+// get a single user information
+const getUserInfo = async (req, res) => {
+  try {
+    // loaded user info stored in req.user，this is requireAuth middleware set
+    const userInfo = req.user;
+    res.status(200).json(userInfo);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { signupUser, loginUser, getUsers, getUserInfo };

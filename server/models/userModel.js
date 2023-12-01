@@ -25,7 +25,10 @@ const userSchema = new Schema({
   postalCode: {
     type: String,
   },
-  name: {
+  firstName: {
+    type: String,
+  },
+  lastName: {
     type: String,
   },
   createdAt: {
@@ -38,12 +41,20 @@ const userSchema = new Schema({
 userSchema.statics.signup = async function (
   email,
   password,
-  name,
+  firstName,
+  lastName,
   address,
   postalCode
 ) {
   // validation
-  if (!email || !password || !name || !address || !postalCode) {
+  if (
+    !email ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !address ||
+    !postalCode
+  ) {
     throw Error('All fields must be filled');
   }
 
@@ -67,7 +78,8 @@ userSchema.statics.signup = async function (
   const user = await this.create({
     email,
     password: hash,
-    name,
+    firstName,
+    lastName,
     address,
     postalCode,
   });

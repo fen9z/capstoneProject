@@ -5,7 +5,9 @@ const {
   loginUser,
   signupUser,
   getUsers,
+  getUserInfo,
 } = require('../controllers/userController');
+const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
@@ -17,5 +19,8 @@ router.post('/signup', signupUser);
 
 // get all users
 router.get('/', getUsers);
+
+// get a single user
+router.get('/userInfo', requireAuth, getUserInfo);
 
 module.exports = router;
