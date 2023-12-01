@@ -1,159 +1,216 @@
-import { Row,Col,Container } from 'react-bootstrap';
-import React, { useEffect } from 'react';
-import '../style/styles.css'
-import TimePicker from 'react-time-picker';
+import { Container } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+import useFetchUserDetails from '../hooks/useFetchUserDetails';
+import '../style/styles.css';
 
 const Booking = () => {
-  // const { workouts, dispatch } = useWorkoutsContext();
-  const [emails,setEmails]=React.useState('');
-  const [firstname,setFirstname]=React.useState('');
-  const [lastnmae,setLastname]=React.useState('');
-  const [phone,setPhone]=React.useState('');
-  const [date,setDate]=React.useState('');
-  const [time,setTime]=React.useState('');
+  const { user } = useAuthContext();
+  const userDetails = useFetchUserDetails(user.token);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [service, setService] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(null);
+
+  // Update form fields with user information when user changes
   useEffect(() => {
-    // const fetchWorkouts = async () => {
-    //   const response = await fetch('/api/workouts');
-    //   const json = await response.json();
-    //   if (response.ok) {
-    //     dispatch({ type: 'SET_WORKOUTS', payload: json });
-    //   }
-    // };
-    // fetchWorkouts();
-  }, []);
-  const Handleonchange=(event,data)=>{
-    if(data=="firstname"){
-      setFirstname(event.target.value)
+    if (userDetails) {
+      setFirstName(userDetails.firstName || '');
+      setLastName(userDetails.lastName || '');
+      setEmail(userDetails.email || '');
+      // ... (populate other fields as needed)
     }
-    else if(data=="phone"){
-      setPhone(event.target.value)
+  }, [userDetails]);
+
+  const bookAppointment = async (
+    firstName,
+    lastName,
+    email,
+    phone,
+    service,
+    date,
+    time
+  ) => {
+    try {
+      setError(null);
+      setIsLoading(true);
+      // create the appointment data
+      const appointmentData = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        service,
+        date,
+        time,
+      };
+      // console.log(user);
+      // request to book appointment
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`, // add the token to the request,the token is in the user object from useAuthContext
+        },
+        body: JSON.stringify(appointmentData),
+      });
+
+      // get the response data
+      const json = await response.json();
+
+      if (response.ok) {
+        // booking successful
+        setSuccessMessage('Appointment booked successfully!');
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000);
+      } else {
+        // booking failed
+        console.error('Failed to book appointment:', json.error);
+        setError(json.error);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error booking appointment:', error.message);
+      setError(error.message);
+      setIsLoading(false);
     }
-    else if(data=="lastname"){
-      setLastname(event.target.value)
+  };
 
-    }
-    else if(data=="email"){
-      setEmails(event.target.value)
-    }
-    else if(data=="date"){
-      setTimeout(()=>{
-        setDate(event.target.value.toString())
-        console.log(event.target.value)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      },1000)
+    // call bookAppointment function submitting form data
+    bookAppointment(firstName, lastName, email, phone, service, date, time);
 
-    }
-    else if(data=="time"){
-      setTimeout(()=>{
-        setTime(event.target.value)
-        console.log(event.target.value.toString())
-
-      },1000)
-
-    }
-
-  }
-  const bookAppointment=()=>{
-    let req={}
-    req.firstName=firstname;
-    req.date=date;
-    req.time=time;
-    req.lastNmae=lastnmae;
-    req.email=emails;
-  }
+    // Clear form fields
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPhone('');
+    setService('');
+    setDate('');
+    setTime('');
+  };
 
   return (
- <Container  className='d-flex  justify-content-start align-items-start p-4' style={{  width:'100%',height:'100vh'}}>
-
-<div  className='p-4' style={{width:'40%'}}>
-  <form onSubmit={bookAppointment}>
- <div className="mb-2">
-   <label style={{alignSelf:'left'}}>First Name</label>
-   <input
-   
-     type="text"
-     className="form-control"
-     onChange={(event)=>Handleonchange(event,"firstname")}
-     placeholder="Enter Fname"
-     style={{border:'1px solid grey'}}
-     required
-   />
-   </div>
-   <div className="mb-2">
-     <label style={{alignSelf:'left'}}>Last Name</label>
-   <input
-     type="text"
-     className="form-control "
-     onChange={(event)=>Handleonchange(event,"lastname")}
-     placeholder="Enter Lname"
-     style={{border:'1px solid grey'}}
-     required
-   />
-   </div>
-   <div className="mb-2">
-     <label style={{alignSelf:'left'}}>Email</label>
-   <input
-     type="email"
-     className="form-control "
-     placeholder="Enter email"
-     onChange={(event)=>Handleonchange(event,"email")}
-     style={{border:'1px solid grey'}}
-     required
-   />
-   </div>
-   <div className="mb-2">
-     <label style={{alignSelf:'left'}}>Phone</label>
-   <input
-     type="text"
-     className="form-control "
-     onChange={(event)=>Handleonchange(event,"phone")}
-     placeholder="Enter phone"
-     style={{border:'1px solid grey'}}
-     required
-   />
-
-   </div>
-   <div className="mb-2">
-     <label style={{alignSelf:'left'}}>Service</label>
-    <select  onChange={(event)=>Handleonchange(event,"service")} className="form-control inpt"  style={{border:'1px solid grey'}}>
-<option value="" style={{color:'grey'}}>Select service</option>
-<option value="mobile">Mobile</option>
-<option value="laptops">Laptop</option>
-<option value="furniture">Furniture</option>
-</select>
-   
-   </div>
-   <div className="mb-2">
-     <label style={{alignSelf:'left'}}>Date</label>
-   <input
-     type="date"
-     className="form-control inpt"
-     onChange={(event)=>Handleonchange(event,"date")}
-     placeholder="select date"
-     style={{border:'1px solid grey'}}
-     required
-   />
-   
- </div> 
- <div className="mb-2">
-     <label style={{alignSelf:'left'}}>Time</label>
-   <input
-     type="time"
-     className="form-control inpt"
-     onChange={(event)=>Handleonchange(event,"time")}
-     placeholder="select time"
-     style={{border:'1px solid grey'}}
-     required
-   />
-   
- </div> 
- <div className="mb-3">
- <button type="button" className="btns">Book Appointment</button>
-   
- </div> 
-  </form> 
-  </div>
-  </Container>
+    <Container
+      className="d-flex  justify-content-start align-items-start p-4"
+      style={{ width: '100%', height: '100vh' }}
+    >
+      <div className="p-4" style={{ width: '40%' }}>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              onChange={(e) => setFirstName(e.target.value)}
+              value={firstName}
+              className="form-control"
+              placeholder="Enter Fname"
+              style={{ border: '1px solid grey' }}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              onChange={(e) => setLastName(e.target.value)}
+              value={lastName}
+              className="form-control "
+              placeholder="Enter Lname"
+              style={{ border: '1px solid grey' }}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>Email</label>
+            <input
+              type="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              className="form-control "
+              placeholder="Enter email"
+              style={{ border: '1px solid grey' }}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>Phone</label>
+            <input
+              type="text"
+              name="phone"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
+              className="form-control "
+              placeholder="Enter phone"
+              style={{ border: '1px solid grey' }}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>Service</label>
+            <select
+              name="service"
+              onChange={(e) => setService(e.target.value)}
+              value={service}
+              className="form-control inpt"
+              style={{ border: '1px solid grey' }}
+            >
+              <option value="" style={{ color: 'grey' }}>
+                Select service
+              </option>
+              <option value="mobile">Mobile</option>
+              <option value="laptops">Laptop</option>
+              <option value="furniture">Furniture</option>
+            </select>
+          </div>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>Date</label>
+            <input
+              type="date"
+              name="date"
+              onChange={(e) => setDate(e.target.value)}
+              value={date}
+              className="form-control inpt"
+              placeholder="select date"
+              style={{ border: '1px solid grey' }}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label style={{ alignSelf: 'left' }}>Time</label>
+            <input
+              type="time"
+              name="time"
+              onChange={(e) => setTime(e.target.value)}
+              value={time}
+              className="form-control inpt"
+              placeholder="select time"
+              style={{ border: '1px solid grey' }}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <button type="submit" disabled={isLoading} className="btns">
+              Book Appointment
+            </button>
+          </div>
+          {successMessage && <div className="success">{successMessage}</div>}
+          {error && <div className="error">{error}</div>}
+        </form>
+      </div>
+    </Container>
   );
 };
 

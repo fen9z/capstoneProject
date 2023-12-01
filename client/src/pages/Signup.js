@@ -4,7 +4,8 @@ import { useSignup } from '../hooks/useSignup';
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [address, setAddress] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const { signup, isLoading, error } = useSignup();
@@ -13,7 +14,7 @@ const Signup = () => {
     e.preventDefault();
 
     // console.log(email, password);
-    await signup(email, password, name, address, postalCode);
+    await signup(email, password, firstName, lastName, address, postalCode);
   };
 
   return (
@@ -33,11 +34,18 @@ const Signup = () => {
         value={password}
       />
 
-      <label>Name:</label>
+      <label>firstName:</label>
       <input
         type="text"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
+        onChange={(e) => setFirstName(e.target.value)}
+        value={firstName}
+      />
+
+      <label>lastName:</label>
+      <input
+        type="text"
+        onChange={(e) => setLastName(e.target.value)}
+        value={lastName}
       />
 
       <label>Address:</label>
