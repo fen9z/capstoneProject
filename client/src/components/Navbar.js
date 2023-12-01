@@ -27,13 +27,13 @@ const Navber = () => {
 
           {user && user.isAdmin && (
             // Add admin panel link for admin users
-            <Link to="/admin">Admin</Link>
+            <Link style={{color:"white"}} to="/admin">Admin</Link>
           )}
 
           {!user && (
             <div>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">signup</Link>
+              <Link style={{color:"white"}} to="/login">Login</Link>
+              <Link style={{color:"white"}} to="/signup">signup</Link>
             </div>
           )}
         </nav>
