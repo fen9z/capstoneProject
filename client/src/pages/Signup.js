@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useSignup } from '../hooks/useSignup';
+import '../style/styles.css'
+
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +21,7 @@ const Signup = () => {
 
   return (
     <form className="signup" onSubmit={handleSubmit}>
-      <h3>Sign Up</h3>
+      <h3 style={{color:"#c00", textAlign:"center"}}>Sign Up</h3>
 
       <label>Email address:</label>
       <input
@@ -62,7 +64,7 @@ const Signup = () => {
         value={postalCode}
       />
 
-      <button disabled={isLoading}>Sign up</button>
+      <button className='mt-2 btns'  disabled={isLoading}>Sign up</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

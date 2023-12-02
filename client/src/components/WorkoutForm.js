@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import { useAuthContext } from '../hooks/useAuthContext';
-
+import '../style/styles.css'
 const WorkoutForm = () => {
   const { dispatch } = useWorkoutsContext();
   const { user } = useAuthContext();
@@ -44,7 +44,7 @@ const WorkoutForm = () => {
 
   return (
     <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a New Workout</h3>
+      <h3 style={{color:"#c00"}}>Add a New Workout</h3>
       <label>Excersize Title:</label>
       <input
         type="text"
@@ -69,7 +69,7 @@ const WorkoutForm = () => {
         className={emptyFields.includes('reps') ? 'error' : ''}
       />
 
-      <button>add workout</button>
+      <button className='btns'>add workout</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

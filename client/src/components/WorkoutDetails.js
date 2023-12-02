@@ -22,8 +22,8 @@ const WorkoutDetails = ({ workout }) => {
     }
   };
   return (
-    <div className="workout-details">
-      <h4>{workout.title}</h4>
+    <div className="workout-details" style={{border:"1px solid grey"}}>
+      <h4 style={{color:"#c00"}}>{workout.title}</h4>
       <p>
         <strong>Load (kg): </strong>
         {workout.load}
