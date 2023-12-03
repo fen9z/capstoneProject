@@ -2,6 +2,7 @@ import { Container } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import useFetchUserDetails from '../hooks/useFetchUserDetails';
+import BookingCalendar from '../components/bookingCalendar';
 import '../style/styles.css';
 
 const Booking = () => {
@@ -28,6 +29,7 @@ const Booking = () => {
     }
   }, [userDetails]);
 
+  // call bookAppointment function submitting form data
   const bookAppointment = async (
     firstName,
     lastName,
@@ -193,6 +195,8 @@ const Booking = () => {
             <input
               type="time"
               name="time"
+              min="08:00"
+              max="16:00"
               onChange={(e) => setTime(e.target.value)}
               value={time}
               className="form-control inpt"
@@ -209,6 +213,9 @@ const Booking = () => {
           {successMessage && <div className="success">{successMessage}</div>}
           {error && <div className="error">{error}</div>}
         </form>
+      </div>
+      <div style={{ width: '60%' }}>
+        <BookingCalendar />
       </div>
     </Container>
   );

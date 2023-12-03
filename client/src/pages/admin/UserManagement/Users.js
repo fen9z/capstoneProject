@@ -119,7 +119,8 @@ const Users = () => {
         <thead>
           <tr>
             <th>Email</th>
-            <th>Name</th>
+            <th>FirstName</th>
+            <th>LastName</th>
             <th>Address</th>
             <th>Postal Code</th>
             <th>Actions</th>
@@ -129,7 +130,8 @@ const Users = () => {
           {currentUsers.map((user) => (
             <tr key={user._id}>
               <td>{user.email}</td>
-              <td>{user.name}</td>
+              <td>{user.firstName}</td>
+              <td>{user.lastName}</td>
               <td>{user.address}</td>
               <td>{user.postalCode}</td>
               <td>
