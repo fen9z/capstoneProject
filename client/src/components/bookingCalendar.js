@@ -1,8 +1,16 @@
 // fetch('/api/bookings/getBookingsInFuture'), don't use hooks
 import useBookingsInFuture from '../hooks/useBookingsInFuture';
 
-const BookingCalendar = () => {
-  // console.log(email, password);
+// I need to confirm the selected date and time in my bookingCalendar.js by clicking on the box in the table
+// Then pass this value to the parent component of bookingCalendar.js pages/booking.js
+import { useState } from 'react'; // import useState
+
+const BookingCalendar = ({ onSetDateTime }) => {
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+
+  // use isLoading from parent component to rerender the component
+
   let futureBookings = useBookingsInFuture();
   // create array of 7 days from today to 7 days
   // content include date and time
@@ -30,7 +38,7 @@ const BookingCalendar = () => {
 
   // check bookings is an empty array or not
   return (
-    <div>
+    <div className="p-5">
       {/* {JSON.stringify(futureBookings)} */}
       <table className="table table-bordered">
         <thead>
@@ -49,6 +57,19 @@ const BookingCalendar = () => {
               futureBookings date and time */}
               {week.map((day, index) => (
                 <td
+                  onClick={(e) => {
+                    // check this box background color
+                    if (e.target.style.backgroundColor === 'transparent') {
+                      setSelectedDate(day.date);
+                      setSelectedTime(timeSlot);
+                      e.target.style.backgroundColor = '#0099cc';
+                      onSetDateTime(day.date, timeSlot);
+                    } else {
+                      setSelectedDate('');
+                      setSelectedTime('');
+                      onSetDateTime('', '');
+                    }
+                  }}
                   key={index}
                   style={{
                     // // check bookings is an empty array or not
@@ -61,7 +82,9 @@ const BookingCalendar = () => {
                           (booking.time === timeSlot ||
                             booking.time.slice(0, 2) === timeSlot.slice(0, 2))
                       )
-                        ? 'red' // change the color to your desired color
+                        ? '#ca0000' // change the color to your desired color
+                        : day.date === selectedDate && timeSlot === selectedTime
+                        ? '#0099cc'
                         : 'transparent',
                   }}
                 ></td>
@@ -70,6 +93,16 @@ const BookingCalendar = () => {
           ))}
         </tbody>
       </table>
+      <p className="calendar-status">
+        <span className="available-time-circle"></span>
+        <span>available</span>
+
+        <span className="disabled-time-circle"></span>
+        <span>disabled</span>
+
+        <span className="selected-time-circle"></span>
+        <span>selected</span>
+      </p>
     </div>
   );
 };

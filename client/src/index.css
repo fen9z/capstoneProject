@@ -157,3 +157,35 @@ form.login {
   background: #fff;
   border-radius: 4px;
 }
+
+.available-time-circle {
+  display: inline-block;
+  background: white;
+  border: 1px solid;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.disabled-time-circle {
+  display: inline-block;
+  margin-left: 10px;
+  background: #ca0000;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.selected-time-circle {
+  display: inline-block;
+  margin-left: 10px;
+  background: #0099cc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.calendar-status {
+  width: 100%;
+  text-align: center;
+}

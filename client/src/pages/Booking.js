@@ -19,6 +19,12 @@ const Booking = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(null);
 
+  // handle calendar component data
+  function handleCalendarData(date, time) {
+    setDate(date);
+    setTime(time);
+  }
+
   // Update form fields with user information when user changes
   useEffect(() => {
     if (userDetails) {
@@ -69,9 +75,7 @@ const Booking = () => {
       if (response.ok) {
         // booking successful
         setSuccessMessage('Appointment booked successfully!');
-        setTimeout(() => {
-          setSuccessMessage('');
-        }, 3000);
+        // isloadng
       } else {
         // booking failed
         console.error('Failed to book appointment:', json.error);
@@ -168,6 +172,7 @@ const Booking = () => {
               value={service}
               className="form-control inpt"
               style={{ border: '1px solid grey' }}
+              required
             >
               <option value="" style={{ color: 'grey' }}>
                 Select service
@@ -180,12 +185,12 @@ const Booking = () => {
           <div className="mb-2">
             <label style={{ alignSelf: 'left' }}>Date</label>
             <input
-              type="date"
+              type="text"
               name="date"
-              onChange={(e) => setDate(e.target.value)}
+              onkeypress="return false;"
               value={date}
               className="form-control inpt"
-              placeholder="select date"
+              placeholder="select from calendar"
               style={{ border: '1px solid grey' }}
               required
             />
@@ -193,14 +198,12 @@ const Booking = () => {
           <div className="mb-2">
             <label style={{ alignSelf: 'left' }}>Time</label>
             <input
-              type="time"
+              type="text"
               name="time"
-              min="08:00"
-              max="16:00"
-              onChange={(e) => setTime(e.target.value)}
+              onkeypress="return false;"
               value={time}
               className="form-control inpt"
-              placeholder="select time"
+              placeholder="select from calendar"
               style={{ border: '1px solid grey' }}
               required
             />
@@ -215,7 +218,13 @@ const Booking = () => {
         </form>
       </div>
       <div style={{ width: '60%' }}>
-        <BookingCalendar />
+        {/* need to get the child component <BookingCalendar />
+The date and time status values inside */}
+
+        <BookingCalendar
+          onSetDateTime={handleCalendarData}
+          isLoading={isLoading}
+        />
       </div>
     </Container>
   );
