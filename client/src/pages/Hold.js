@@ -11,13 +11,12 @@ const Hold = () => {
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch('/api/workouts', {
+      const response = await fetch('/api/hold', {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
       const json = await response.json();
-
       if (response.ok) {
         dispatch({ type: 'SET_WORKOUTS', payload: json });
       }
@@ -30,6 +29,7 @@ const Hold = () => {
   return (
     <div className="hold">
       <div className="workouts">
+        <h4 style={{ textAlign: 'center' }}>Hold List</h4>
         {workouts &&
           workouts.map((workout) => (
             <WorkoutDetails workout={workout} key={workout._id} />
