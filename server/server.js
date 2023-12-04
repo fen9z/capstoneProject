@@ -5,6 +5,7 @@ const workoutsRoutes = require('./routes/workouts');
 const userRoutes = require('./routes/user');
 const bookingRoutes = require('./routes/booking');
 const productRoutes = require('./routes/product');
+const holdRoutes = require('./routes/hold');
 
 // express app
 const app = express();
@@ -21,6 +22,7 @@ app.use('/api/workouts', workoutsRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/hold', holdRoutes);
 
 // connect to db
 mongoose
