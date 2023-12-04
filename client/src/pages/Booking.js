@@ -187,8 +187,11 @@ const Booking = () => {
             <input
               type="text"
               name="date"
-              onkeypress="return false;"
+              onKeyPress={() => {
+                return false;
+              }}
               value={date}
+              onChange={(e) => {}}
               className="form-control inpt"
               placeholder="select from calendar"
               style={{ border: '1px solid grey' }}
@@ -200,8 +203,11 @@ const Booking = () => {
             <input
               type="text"
               name="time"
-              onkeypress="return false;"
+              onKeyPress={() => {
+                return false;
+              }}
               value={time}
+              onChange={(e) => {}}
               className="form-control inpt"
               placeholder="select from calendar"
               style={{ border: '1px solid grey' }}
