@@ -1,10 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { Card, ListGroup, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const ProductList = ({ category, searchTerm }) => {
+const ProductList = ({ category, searchTerm, onShowModal }) => {
   const [products, setProducts] = useState([]);
   const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const handleHold = async (productId) => {
+    try {
+      //  api call to hold product
+      const response = await fetch(`/api/hold/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          productId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Product held:', data);
+        // refresh products or do something else
+        // redirect to another page or show success message
+        // 2 seconds delay go to the hold page
+        onShowModal();
+        setTimeout(() => {
+          navigate('/hold');
+        }, 1500);
+      } else {
+        console.error('Hold product error:', data.message);
+      }
+    } catch (error) {
+      console.error('Hold product error:', error.message);
+    }
+  };
 
   useEffect(() => {
     // get products from backend
@@ -39,7 +73,7 @@ const ProductList = ({ category, searchTerm }) => {
   return (
     <Card>
       <Card.Header>
-        <h3 className="mb-0">{category} Product List</h3>
+        <h3 className="mb-0">{category} search results</h3>
       </Card.Header>
       <ListGroup variant="flush" className="mb-3">
         {products &&
@@ -73,7 +107,11 @@ const ProductList = ({ category, searchTerm }) => {
                     />
                   )}
                   {/* HOLD button */}
-                  <Button variant="warning" className="mt-2">
+                  <Button
+                    variant="warning"
+                    className="mt-2"
+                    onClick={() => handleHold(product._id)}
+                  >
                     HOLD
                   </Button>
                   <br />
