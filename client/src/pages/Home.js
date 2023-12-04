@@ -6,6 +6,7 @@ import '../style/home.css';
 // import WorkoutDetails from '../components/WorkoutDetails';
 // import WorkoutForm from '../components/WorkoutForm';
 import Card from '../components/card';
+import SearchBar from '../components/SearchBar';
 
 const Home = () => {
   // const { workouts, dispatch } = useWorkoutsContext();
@@ -30,24 +31,7 @@ const Home = () => {
           ))}
       </div>
       <WorkoutForm /> */}
-
-      <div className="search">
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search  Store"
-            aria-label="Recipient's username"
-            aria-describedby="basic-addon2"
-          />
-          <div className="input-group-append">
-            <button className="btn btn-danger" type="button">
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-
+      <SearchBar />
       <div className="home">
         <Card card={'Hold'} />
         <Card card={'Booking'} />

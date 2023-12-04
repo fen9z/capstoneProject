@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminPanel from './pages/admin/AdminPanel';
 import Navbar from './components/Navbar';
+import Product from './pages/Product';
 
 function App() {
   const { user } = useAuthContext();
@@ -40,6 +41,10 @@ function App() {
             <Route
               path="/Chat"
               element={user ? <Chat /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/Product/*"
+              element={user ? <Product /> : <Navigate to="/login" />}
             />
             {/* Add admin panel route */}
             <Route
