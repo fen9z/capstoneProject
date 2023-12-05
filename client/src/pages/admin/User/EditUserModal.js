@@ -1,5 +1,5 @@
 // EditUserModal.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 
@@ -10,32 +10,52 @@ const EditUserModal = ({
   handleCancelEdit,
   handleSaveChanges,
   handleInputChange,
+  isCreatingUser, // 新添加的标志，表示是否在创建用户
 }) => {
   console.log('editingUser', editingUser);
   // got user AuthContext
   const { user } = useAuthContext();
+  const [error, setError] = useState('');
   // save changes
   const handleSaveChangesLocal = async () => {
     try {
-      // crate new user object
-      const updatedUser = {
-        firstName: editingUser.firstName,
-        lastName: editingUser.lastName,
-        address: editingUser.address,
-        postalCode: editingUser.postalCode,
-        isAdmin: editingUser.isAdmin,
-        // other fields ...
-      };
+      // crate new user object / update user object
+      const formData = isCreatingUser
+        ? {
+            email: editingUser.email,
+            firstName: editingUser.firstName,
+            lastName: editingUser.lastName,
+            address: editingUser.address,
+            postalCode: editingUser.postalCode,
+            password: editingUser.password,
+          }
+        : {
+            firstName: editingUser.firstName,
+            lastName: editingUser.lastName,
+            address: editingUser.address,
+            postalCode: editingUser.postalCode,
+            isAdmin: editingUser.isAdmin,
+            // other fields ...
+          };
 
       // send PATCH request to server
-      const response = await fetch(`/api/user/${editingUser._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(updatedUser),
-      });
+      const response = isCreatingUser
+        ? await fetch('/api/user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: JSON.stringify(formData),
+          })
+        : await fetch(`/api/user/${editingUser._id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: JSON.stringify(formData),
+          });
 
       if (response.ok) {
         const data = await response.json();
@@ -45,19 +65,48 @@ const EditUserModal = ({
         handleSaveChanges(data);
       } else {
         console.error('Failed to update user:', response.statusText);
+        setError(response.statusText);
       }
     } catch (error) {
       console.error('Error updating user:', error);
+      setError(error);
     }
   };
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit User</Modal.Title>
+        <Modal.Title>
+          {isCreatingUser ? 'Create User' : 'Edit User'}
+        </Modal.Title>{' '}
       </Modal.Header>
       <Modal.Body>
         <Form className="mb-3">
-          {/* editingUser */}
+          {/* Email 字段 */}
+          {isCreatingUser && (
+            <>
+              <Form.Group controlId="formEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter email"
+                  value={editingUser.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formPassword">
+                <Form.Label>password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  value={editingUser.password}
+                  onChange={(e) =>
+                    handleInputChange('password', e.target.value)
+                  }
+                />
+              </Form.Group>
+            </>
+          )}
+          {/* create user / editingUser */}
           <Form.Group controlId="formFirstName" className="mb-3">
             <Form.Label>FirstName</Form.Label>
             <Form.Control
@@ -94,16 +143,18 @@ const EditUserModal = ({
               onChange={(e) => handleInputChange('postalCode', e.target.value)}
             />
           </Form.Group>
-          {/* // pay attention to this Form.Group checkbox not use value,use checked */}
-          <Form.Group controlId="formIsAdmin" className="mb-3">
-            <Form.Check
-              label="IsAdmin"
-              type="checkbox"
-              checked={editingUser.isAdmin}
-              onChange={(e) => handleInputChange('isAdmin', e.target.checked)}
-            />
-          </Form.Group>
 
+          {/* // pay attention to this Form.Group checkbox not use value,use checked */}
+          {!isCreatingUser && (
+            <Form.Group controlId="formIsAdmin" className="mb-3">
+              <Form.Check
+                label="IsAdmin"
+                type="checkbox"
+                checked={editingUser.isAdmin}
+                onChange={(e) => handleInputChange('isAdmin', e.target.checked)}
+              />
+            </Form.Group>
+          )}
           {/* other Form.Group ... */}
         </Form>
       </Modal.Body>
@@ -117,8 +168,9 @@ const EditUserModal = ({
           onClick={handleSaveChangesLocal}
           className="mb-3"
         >
-          Save Changes
+          {isCreatingUser ? 'Create User' : 'Save Changes'}{' '}
         </Button>
+        {error && <p className="text-danger">{error}</p>}
       </Modal.Footer>
     </Modal>
   );

@@ -81,13 +81,26 @@ const getUserInfo = async (req, res) => {
 const updateUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, address, postalCode, isAdmin } = req.body;
+    const { password, firstName, lastName, address, postalCode, isAdmin } =
+      req.body;
     // update user
     const user = await User.findByIdAndUpdate(
       { _id: id },
-      { firstName, lastName, address, postalCode, isAdmin },
+      { firstName, lastName, address, postalCode, isAdmin, password },
       { new: true }
     );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// create user
+const createUser = async (req, res) => {
+  try {
+    const data = req.body;
+    data.password = await User.cryptPassword(data.password);
+    const user = await User.create(req.body);
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -100,4 +113,5 @@ module.exports = {
   getUsers,
   getUserInfo,
   updateUserById,
+  createUser,
 };

@@ -7,6 +7,7 @@ const {
   getUsers,
   getUserInfo,
   updateUserById,
+  createUser,
 } = require('../controllers/userController');
 const requireAuth = require('../middleware/requireAuth');
 const { updateMany } = require('../models/userModel');
@@ -27,5 +28,8 @@ router.get('/userInfo', requireAuth, getUserInfo);
 
 // edit a single user with id
 router.patch('/:id', requireAuth, updateUserById);
+
+// create a new user
+router.post('/', requireAuth, createUser);
 
 module.exports = router;

@@ -71,9 +71,8 @@ userSchema.statics.signup = async function (
   if (exists) {
     throw Error('Email already in use');
   }
-
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
+  // hash password used static method cryptPassword
+  const hash = await this.cryptPassword(password);
 
   const user = await this.create({
     email,
@@ -110,6 +109,13 @@ userSchema.statics.login = async function (email, password) {
   }
 
   return user;
+};
+
+// static method to crypt password
+userSchema.statics.cryptPassword = async function (password) {
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
 };
 
 module.exports = mongoose.model('User', userSchema);

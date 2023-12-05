@@ -9,6 +9,7 @@ const Users = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filterTerm, setFilterTerm] = useState('');
+  const [isCreatingUser, setIsCreatingUser] = useState(false); // 新添加的状态
 
   // 获取用户列表
   useEffect(() => {
@@ -42,12 +43,29 @@ const Users = () => {
   const handleCancelEdit = () => {
     setEditingUser(null);
     setShowModal(false);
+    setIsCreatingUser(false); // 确保在取消编辑时重置状态
   };
 
-  // 处理打开模态框
-  const handleOpenModal = () => {
+  // 处理创建用户
+  const handleCreateUser = () => {
+    setIsCreatingUser(true); // 设置为创建用户
+
+    // 设置一个空用户对象，传递给 EditUserModal，同时标记为创建用户
+    setEditingUser({
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      postalCode: '',
+      isAdmin: false,
+    });
     setShowModal(true);
   };
+  // 处理打开模态框
+  // const handleOpenModal = () => {
+  //   setShowModal(true);
+  // };
 
   // 处理关闭模态框
   const handleCloseModal = () => {
@@ -95,15 +113,27 @@ const Users = () => {
   };
 
   // 处理保存更改
-  const handleSaveChanges = async (updatedUser) => {
-    try {
-      const updatedUsers = users.map((user) =>
-        user._id === updatedUser._id ? updatedUser : user
-      );
-      setUsers(updatedUsers);
-      handleCloseModal();
-    } catch (error) {
-      console.error('Error updating user:', error);
+  const handleSaveChanges = async (userData) => {
+    // 处理如果是创建用户的情况
+    if (isCreatingUser) {
+      try {
+        setUsers([...users, userData]);
+        handleCloseModal();
+      } catch (error) {
+        console.error('Error creating user:', error);
+      }
+      // change the state of isCreatingUser to false
+      setIsCreatingUser(false);
+    } else {
+      try {
+        const updatedUsers = users.map((user) =>
+          user._id === userData._id ? userData : user
+        );
+        setUsers(updatedUsers);
+        handleCloseModal();
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
     }
   };
 
@@ -159,7 +189,7 @@ const Users = () => {
       <div style={{ display: 'flex', alignItems: 'center' }} className="mb-3">
         <Button
           variant="success"
-          onClick={handleOpenModal}
+          onClick={handleCreateUser}
           style={{
             maxWidth: '150px',
             whiteSpace: 'nowrap',
@@ -186,6 +216,7 @@ const Users = () => {
           handleCancelEdit={handleCancelEdit}
           handleSaveChanges={handleSaveChanges} // 确保这个函数被传递
           handleInputChange={handleInputChange} // 如果有的话，确保这个函数也被传递
+          isCreatingUser={isCreatingUser} // 新添加的标志，表示是否在创建用户
         />
       ) : users.length === 0 ? (
         <p>No users found.</p>
