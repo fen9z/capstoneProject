@@ -87,6 +87,9 @@ const ProductList = ({ category, searchTerm, onShowModal }) => {
                     <strong> Category</strong>: {product.category}
                   </p>
                   <p className="mb-1">
+                    <strong>StorePlace</strong>: {product.storePlace}
+                  </p>
+                  <p className="mb-1">
                     <strong>Price</strong>: ${product.price.toFixed(2)}
                   </p>
                   <p className="mb-1">
@@ -96,6 +99,7 @@ const ProductList = ({ category, searchTerm, onShowModal }) => {
                   <p className="mb-1">
                     <strong>Description</strong>: {product.description}
                   </p>
+                  <p></p>
                   {/* Add more product details as needed */}
                 </div>
                 <div className="d-flex flex-column align-items-center">

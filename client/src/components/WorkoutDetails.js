@@ -36,6 +36,14 @@ const WorkoutDetails = ({ workout }) => {
           {workout.productId.itemId}
         </p>
         <p>
+          <strong>Category: </strong>
+          {workout.productId.category}
+        </p>
+        <p>
+          <strong>StorePlace: </strong>
+          {workout.productId.storePlace}
+        </p>
+        <p>
           <strong>price: </strong>
           {workout.productId.price}
         </p>
@@ -63,7 +71,7 @@ const WorkoutDetails = ({ workout }) => {
           />
         )}
         <Button variant="warning" className="mt-2" onClick={handleClick}>
-          delete
+          Cancel
         </Button>
       </div>
     </div>

@@ -9,6 +9,7 @@ const productSchema = Schema({
   price: { type: Number, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
+  storePlace: { type: String, required: true },
   storageNumber: { type: Number, required: true, default: 0 },
   holdedNumber: { type: Number, required: true, default: 0 },
   realUrl: { type: String, required: true },

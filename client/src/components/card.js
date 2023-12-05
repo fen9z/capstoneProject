@@ -8,24 +8,15 @@ const Card = ({ card }) => {
   return (
     <Link to={'/' + card}>
       <div className="card">
-        {
-          card=="Booking" &&(
-            <img src={book} alt="book" style={{ width: '100%', height: '60%' }} />
-          )
-          
-        }
-        {
-          card=="Hold" && (
-            <img src={hold} alt="hold" style={{ width: '100%', height: '60%' }} />
-
-          )
-        }
-        {
-          card=="Chat" && (
-            <img src={chat} alt="hold" style={{ width: '100%', height: '60%' }} />
-
-          )
-        }
+        {card === 'Booking' && (
+          <img src={book} alt="book" style={{ width: '100%', height: '60%' }} />
+        )}
+        {card === 'Hold' && (
+          <img src={hold} alt="hold" style={{ width: '100%', height: '60%' }} />
+        )}
+        {card === 'Chat' && (
+          <img src={chat} alt="hold" style={{ width: '100%', height: '60%' }} />
+        )}
         <button type="button" className=" mt-2 btns">
           {card}
         </button>
