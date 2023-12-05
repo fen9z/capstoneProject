@@ -52,6 +52,7 @@ const Users = () => {
   // 处理关闭模态框
   const handleCloseModal = () => {
     setShowModal(false);
+    handleCancelEdit();
   };
 
   // Handling pagination
@@ -94,12 +95,16 @@ const Users = () => {
   };
 
   // 处理保存更改
-  const handleSaveChanges = async () => {
-    // 在这里添加处理保存更改的逻辑
-    // 例如，可以向服务器发送请求以保存更改
-
-    // 保存完成后关闭模态框
-    handleCloseModal();
+  const handleSaveChanges = async (updatedUser) => {
+    try {
+      const updatedUsers = users.map((user) =>
+        user._id === updatedUser._id ? updatedUser : user
+      );
+      setUsers(updatedUsers);
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
   };
 
   // 处理输入字段的变化
@@ -123,6 +128,7 @@ const Users = () => {
             <th>LastName</th>
             <th>Address</th>
             <th>Postal Code</th>
+            <th>Is Admin</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -134,6 +140,7 @@ const Users = () => {
               <td>{user.lastName}</td>
               <td>{user.address}</td>
               <td>{user.postalCode}</td>
+              <td>{user.isAdmin ? 'Yes' : 'No'}</td>
               <td>
                 <Button variant="info" onClick={() => handleEditUser(user)}>
                   <i className="fas fa-edit"></i> Edit
@@ -148,8 +155,8 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users</h2>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <h2 style={{ textAlign: 'center' }}>Users</h2>
+      <div style={{ display: 'flex', alignItems: 'center' }} className="mb-3">
         <Button
           variant="success"
           onClick={handleOpenModal}
@@ -164,7 +171,7 @@ const Users = () => {
         </Button>
         <input
           type="text"
-          placeholder="filter users..."
+          placeholder="filter users with email address firstName..."
           value={filterTerm}
           onChange={(e) => setFilterTerm(e.target.value)}
           style={{ marginLeft: '10px' }}

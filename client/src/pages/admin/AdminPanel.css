@@ -1,5 +1,6 @@
 /* AdminPanel.css */
 .admin-panel {
+  margin: -20px;
   display: flex;
   height: 100vh; /* 使整个页面高度占满视口 */
 }

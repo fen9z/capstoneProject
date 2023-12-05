@@ -6,8 +6,10 @@ const {
   signupUser,
   getUsers,
   getUserInfo,
+  updateUserById,
 } = require('../controllers/userController');
 const requireAuth = require('../middleware/requireAuth');
+const { updateMany } = require('../models/userModel');
 
 const router = express.Router();
 
@@ -22,5 +24,8 @@ router.get('/', getUsers);
 
 // get a single user
 router.get('/userInfo', requireAuth, getUserInfo);
+
+// edit a single user with id
+router.patch('/:id', requireAuth, updateUserById);
 
 module.exports = router;
