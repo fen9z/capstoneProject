@@ -1,10 +1,10 @@
 // AdminPanel.js
 import { Link, Routes, Route, Navigate } from 'react-router-dom';
-import Users from './UserManagement/Users';
-import Holds from './Holds';
-import Bookings from './Bookings';
-import Chats from './Chats';
-import Products from './Products';
+import Users from './User/Users';
+import Holds from './Hold/Holds';
+import Bookings from './Booking/Bookings';
+import Chats from './Chat/Chats';
+import Products from './Product/Products';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import './AdminPanel.css';
 
