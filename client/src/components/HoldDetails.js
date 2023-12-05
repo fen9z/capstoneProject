@@ -29,6 +29,14 @@ const HoldDetails = ({ hold }) => {
         {hold.itemId}
       </p>
       <p>
+        <strong>Category: </strong>
+        {hold.category}
+      </p>
+      <p>
+        <strong>StorePlace: </strong>
+        {hold.storePlace}
+      </p>
+      <p>
         <strong>price: </strong>
         {hold.price}
       </p>
@@ -40,7 +48,7 @@ const HoldDetails = ({ hold }) => {
         {formatDistanceToNow(new Date(hold.createdAt), { addSuffix: true })}
       </p>
       <span className="material-symbols-outlined" onClick={handleClick}>
-        delete
+        Cancel
       </span>
     </div>
   );

@@ -75,6 +75,9 @@ const Booking = () => {
       if (response.ok) {
         // booking successful
         setSuccessMessage('Appointment booked successfully!');
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 2000);
         // isloadng
       } else {
         // booking failed
@@ -96,9 +99,6 @@ const Booking = () => {
     bookAppointment(firstName, lastName, email, phone, service, date, time);
 
     // Clear form fields
-    setFirstName('');
-    setLastName('');
-    setEmail('');
     setPhone('');
     setService('');
     setDate('');
@@ -225,12 +225,11 @@ const Booking = () => {
       </div>
       <div style={{ width: '60%' }}>
         {/* need to get the child component <BookingCalendar />
-The date and time status values inside */}
+The date and time status values inside 
+              use isLoading to refresh the component
+    */}
 
-        <BookingCalendar
-          onSetDateTime={handleCalendarData}
-          isLoading={isLoading}
-        />
+        {!isLoading && <BookingCalendar onSetDateTime={handleCalendarData} />}
       </div>
     </Container>
   );

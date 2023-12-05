@@ -48,8 +48,8 @@ const getFutureBookings = async (req, res) => {
       // fields time change to On the hour, no seconds
       // start at 08:00:00 and end at 16:00:00
       time: {
-        $gte: '08:00:00',
-        $lte: '16:00:00',
+        $gte: '07:59:00',
+        $lte: '16:01:00',
       },
     }).select('date time service -_id');
     res.status(200).json(bookings);
