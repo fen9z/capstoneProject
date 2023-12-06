@@ -108,7 +108,7 @@ const Holds = () => {
       const updateHolds = holds.map((hold) =>
         hold._id === holdData._id ? holdData : hold
       );
-      console.log('更新完成后', updateHolds);
+
       setHolds(updateHolds);
       handleCloseModal();
     } catch (error) {

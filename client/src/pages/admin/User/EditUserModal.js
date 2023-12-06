@@ -10,7 +10,7 @@ const EditUserModal = ({
   handleCancelEdit,
   handleSaveChanges,
   handleInputChange,
-  isCreatingUser, // 新添加的标志，表示是否在创建用户
+  isCreatingUser, // new state for creating user
 }) => {
   // got user AuthContext
   const { user } = useAuthContext();
@@ -80,7 +80,6 @@ const EditUserModal = ({
       </Modal.Header>
       <Modal.Body>
         <Form className="mb-3">
-          {/* Email 字段 */}
           {isCreatingUser && (
             <>
               <Form.Group controlId="formEmail">
@@ -158,7 +157,7 @@ const EditUserModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-center">
-        {/* 将按钮放在 Modal.Footer 内并使其居中显示 */}
+        {/* button in Modal.Footer align center */}
         <Button variant="secondary" onClick={handleCancelEdit} className="mb-3">
           Cancel
         </Button>

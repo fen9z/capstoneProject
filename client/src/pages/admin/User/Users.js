@@ -28,7 +28,7 @@ const Users = () => {
       try {
         let apiUrl = '/api/user';
 
-        // 如果有过滤条件，添加到 API 地址中
+        // if there is a filter term, add it to the API URL
         if (debouncedFilterTerm) {
           apiUrl += `?filter=${debouncedFilterTerm}`;
         }
@@ -73,12 +73,8 @@ const Users = () => {
     });
     setShowModal(true);
   };
-  // 处理打开模态框
-  // const handleOpenModal = () => {
-  //   setShowModal(true);
-  // };
 
-  // 处理关闭模态框
+  // dealing with closing modal
   const handleCloseModal = () => {
     setShowModal(false);
     handleCancelEdit();
@@ -236,14 +232,14 @@ const Users = () => {
           handleCloseModal={handleCloseModal}
           editingUser={editingUser}
           handleCancelEdit={handleCancelEdit}
-          handleSaveChanges={handleSaveChanges} // 确保这个函数被传递
-          handleInputChange={handleInputChange} // 如果有的话，确保这个函数也被传递
-          isCreatingUser={isCreatingUser} // 新添加的标志，表示是否在创建用户
+          handleSaveChanges={handleSaveChanges} // transfer the function to EditUserModal
+          handleInputChange={handleInputChange} // transfer the function to EditUserModal
+          isCreatingUser={isCreatingUser} // if it is creating user, set isCreatingUser to true
         />
       ) : users.length === 0 ? (
         <p>No users found.</p>
       ) : (
-        // 用户列表
+        // users
         <div>
           {renderUsers()}
           {renderPagination()} {/* Add this line to render the pagination */}
