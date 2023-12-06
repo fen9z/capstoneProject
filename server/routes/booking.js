@@ -4,7 +4,10 @@ const {
   createBooking,
   getUserBookings,
   getFutureBookings,
+  getAllBookings,
+  updateBooking,
 } = require('../controllers/bookingController');
+const { get } = require('mongoose');
 
 const router = express.Router();
 
@@ -14,8 +17,14 @@ router.get('/bookingsInFuture', getFutureBookings);
 // Create a new booking
 router.post('/', requireAuth, createBooking);
 
-// Get all bookings for a user
+// Get bookings for a user
 router.get('/', requireAuth, getUserBookings);
+
+// get all bookings
+router.get('/allBookings', getAllBookings);
+
+// update a booking
+router.patch('/:id', requireAuth, updateBooking);
 
 // Add more routes as needed
 

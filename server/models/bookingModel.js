@@ -42,6 +42,27 @@ const bookingSchema = new Schema({
     type: String,
     required: true,
   },
+  isCancelled: {
+    type: Boolean,
+    default: false,
+  },
+  cancelTime: {
+    type: Date,
+    default: null,
+  },
+  whoCancelled: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  messageToUser: {
+    type: String,
+    default: null,
+  },
+  isCompleted: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -39,15 +39,15 @@ const AdminPanel = () => {
             </Link>
           </li>
           <li>
-            <Link to="/admin/chats" id="chats-link">
-              <i className="fas fa-comments"></i>
-              Chats
-            </Link>
-          </li>
-          <li>
             <Link to="/admin/products" id="products-link">
               <i className="fas fa-boxes"></i>
               Products
+            </Link>
+          </li>
+          <li>
+            <Link to="/admin/chats" id="chats-link">
+              <i className="fas fa-comments"></i>
+              Chats
             </Link>
           </li>
         </ul>

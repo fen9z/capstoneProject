@@ -51,6 +51,8 @@ const getFutureBookings = async (req, res) => {
         $gte: '07:59:00',
         $lte: '16:01:00',
       },
+      // filter by isCancelled: false
+      isCancelled: false,
     }).select('date time service -_id');
     res.status(200).json(bookings);
   } catch (error) {
@@ -59,4 +61,57 @@ const getFutureBookings = async (req, res) => {
   }
 };
 
-module.exports = { createBooking, getUserBookings, getFutureBookings };
+// get all bookings
+const getAllBookings = async (req, res) => {
+  try {
+    let filter = req.query.filter || ''; // from url get filter parameter
+    let filterRegex = new RegExp(filter, 'i'); // create regex for filter
+
+    const bookings = await Booking.find({
+      $or: [
+        { firstName: filterRegex },
+        { lastName: filterRegex },
+        { email: filterRegex },
+        { phone: filterRegex },
+      ],
+    });
+    res.status(200).json(bookings);
+  } catch (error) {
+    console.error('Error getting bookings:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// update booking by booking id
+const updateBooking = async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    // update action must pay attention to isCancelled ture or false
+    // if isCancelled is true, cancelTime and whoCancelled will be set, if iscancelled is false, cancelTime and whoCancelled will be null
+    const cancelInfo = req.body.isCancelled
+      ? { cancelTime: new Date(), whoCancelled: req.user._id }
+      : { cancelTime: null, whoCancelled: null };
+
+    // update the booking
+    const booking = await Booking.findOneAndUpdate(
+      { _id: bookingId },
+      { ...req.body, ...cancelInfo },
+      { new: true } // return updated booking, if false return old booking
+    );
+    if (!booking) {
+      return res.status(400).json({ error: 'No such booking' });
+    }
+    // return updated booking
+    res.status(200).json(booking);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createBooking,
+  getUserBookings,
+  getFutureBookings,
+  getAllBookings,
+  updateBooking,
+};
