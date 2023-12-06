@@ -29,7 +29,9 @@ const getUserHolds = async (req, res) => {
     const userId = req.user._id;
 
     // use userId to find holds and populate productId
-    const holds = await Hold.find({ userId }).populate('productId');
+    const holds = await Hold.find({ userId })
+      .populate('productId')
+      .populate('whoCancelled');
 
     // return holds
     res.json(holds);
@@ -38,28 +40,110 @@ const getUserHolds = async (req, res) => {
   }
 };
 
-// deleteHold - delete a hold
-const deleteHold = async (req, res) => {
+// getallHolds
+const getAllHolds = async (req, res) => {
+  try {
+    let filter = req.query.filter || ''; // from url get filter parameter
+    let filterRegex = new RegExp(filter, 'i'); // create regex for filter
+    // console.log('filterRegex:', filterRegex);
+
+    // find all holds and populate productId and populate userId
+    // filter by userId.firstName and productId.name
+    // lookup users and products based on userId and productId
+    // pay attention to the unwind after the lookup, and before the match
+    // step 1: $lookup  step 2: $unwind  step 3: $match filter
+    const holds = await Hold.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'productId',
+          foreignField: '_id',
+          as: 'product',
+        },
+      },
+      { $unwind: '$user' }, // unwind the user array
+      { $unwind: '$product' }, // unwind the product array
+      {
+        $match: {
+          $or: [
+            { 'user.email': { $regex: filterRegex } },
+            { 'product.itemId': { $regex: filterRegex } },
+            // add more filters as needed
+          ],
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ]);
+
+    if (!holds) {
+      return res.status(400).json({ error: 'No holds found' });
+    }
+    res.status(200).json(holds);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// updateHold
+const updateHold = async (req, res) => {
   try {
     // get holdId from req.params
     const holdId = req.params.id;
+    // update action must pay attention to isCancelled ture or false
+    // if isCancelled is true, cancelTime and whoCancelled will be set, if iscancelled is false, cancelTime and whoCancelled will be null
+    const cancelInfo = req.body.isCancelled
+      ? { cancelTime: new Date(), whoCancelled: req.user._id }
+      : { cancelTime: null, whoCancelled: null };
+    // update the hold
+    const hold = await Hold.findOneAndUpdate(
+      { _id: holdId },
+      { ...req.body, ...cancelInfo },
+      {
+        new: true, // return updated hold, if false return old hold
+      }
+    )
+      .populate('productId')
+      .populate('userId');
 
-    // find and delete the hold
-    // just use workout instead of hold
-    const workout = await Hold.findOneAndDelete({ _id: holdId });
-
-    if (!workout) {
+    if (!hold) {
       return res.status(400).json({ error: 'No such hold' });
     }
-    // return deleted hold for client component context dispatch state change
-    // this api matches with deleteWorkout api : client context/WorkoutContext.js
-    // and in the context file: you can find data will filter use api return data
-    // case 'DELETE_WORKOUT':
-    //   return {
-    //     workouts: state.workouts.filter((w) => w._id !== action.payload._id),
-    //   };
+    // return updated hold populated with user and product
+    res.status(200).json(hold);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-    res.status(200).json(workout);
+// cancelHold - cancel a hold
+const cancelHold = async (req, res) => {
+  try {
+    // get holdId from req.params
+    const holdId = req.params.id;
+    // find and update the hold to cancel
+    const hold = await Hold.findOneAndUpdate(
+      { _id: holdId },
+      {
+        isCancelled: true,
+        cancelTime: new Date(),
+        whoCancelled: req.user._id,
+      },
+      {
+        new: true, // return updated hold, if false return old hold
+      }
+    ).populate('whoCancelled');
+    if (!hold) {
+      return res.status(400).json({ error: 'No such hold' });
+    }
+    res.status(200).json(hold);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -68,5 +152,7 @@ const deleteHold = async (req, res) => {
 module.exports = {
   addHold,
   getUserHolds,
-  deleteHold,
+  updateHold,
+  getAllHolds,
+  cancelHold,
 };

@@ -47,6 +47,17 @@ function App() {
               element={user ? <Product /> : <Navigate to="/login" />}
             />
             {/* Add admin panel route */}
+            {/* add admin default redirect Route */}
+            <Route
+              path="/admin"
+              element={
+                user && user.isAdmin ? (
+                  <Navigate to="/admin/users" replace />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
             <Route
               path="/admin/*"
               element={

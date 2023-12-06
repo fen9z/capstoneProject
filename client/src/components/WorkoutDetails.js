@@ -7,12 +7,14 @@ import { Button } from 'react-bootstrap';
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext();
   const { user } = useAuthContext();
+
   const handleClick = async () => {
     if (!user) {
       return;
     }
-    const response = await fetch('/api/hold/' + workout._id, {
-      method: 'DELETE',
+
+    const response = await fetch('/api/hold/cancel/' + workout._id, {
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
@@ -47,20 +49,43 @@ const WorkoutDetails = ({ workout }) => {
           <strong>price: </strong>
           {workout.productId.price}
         </p>
-        <p>
-          <strong>description: </strong>
-          {workout.productId.description}
-        </p>
+        {!workout.isCancelled && (
+          <>
+            <p>
+              <strong>description: </strong>
+              {workout.productId.description}
+            </p>
 
-        <p>
-          <strong>when hold it: </strong>
-          {formatDistanceToNow(new Date(workout.createdAt), {
-            addSuffix: true,
-          })}
-        </p>
-        <p>
-          <a href={workout.productId.realUrl}>View details</a>
-        </p>
+            <p>
+              <strong>when hold it: </strong>
+              {formatDistanceToNow(new Date(workout.createdAt), {
+                addSuffix: true,
+              })}
+            </p>
+            <p>
+              <a href={workout.productId.realUrl}>View details</a>
+            </p>
+          </>
+        )}
+        {workout.isCancelled && (
+          <>
+            <p
+              style={{
+                color: '#ca0000',
+                fontWeight: 'bold',
+              }}
+            >
+              <i className="fa-solid fa-ban" style={{ color: '#ca0000' }}></i>
+              Cancelled
+              {workout.whoCancelled.email &&
+              workout.whoCancelled.email === user.email
+                ? ' by yourself'
+                : ' by Staff'}
+              {' at ' + new Date(workout.cancelTime).toLocaleString()}
+              <i className="fa-solid fa-ban" style={{ color: '#ca0000' }}></i>
+            </p>
+          </>
+        )}
       </div>
       <div className="d-flex flex-column align-items-center">
         {workout.productId.image && (
@@ -70,7 +95,13 @@ const WorkoutDetails = ({ workout }) => {
             style={{ maxWidth: '150px', maxHeight: '150pxpx' }}
           />
         )}
-        <Button variant="warning" className="mt-2" onClick={handleClick}>
+        <Button
+          hidden={workout.isCancelled}
+          disabled={workout.isCancelled}
+          variant={'warning'}
+          className="mt-2"
+          onClick={handleClick}
+        >
           Cancel
         </Button>
       </div>

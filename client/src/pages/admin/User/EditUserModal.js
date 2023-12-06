@@ -12,7 +12,6 @@ const EditUserModal = ({
   handleInputChange,
   isCreatingUser, // 新添加的标志，表示是否在创建用户
 }) => {
-  console.log('editingUser', editingUser);
   // got user AuthContext
   const { user } = useAuthContext();
   const [error, setError] = useState('');
