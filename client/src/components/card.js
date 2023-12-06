@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import book from '../Asset/boook.jpg';
+import book from '../Asset/book.jpg';
 import hold from '../Asset/hold.jpg';
-import chat from '../Asset/chat.jpg';
+import chat from '../Asset/chat.png';
 
 import '../style/styles.css';
 const Card = ({ card }) => {
