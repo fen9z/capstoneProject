@@ -1,7 +1,6 @@
 // Users.js
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Pagination } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap styles
 import EditUserModal from './EditUserModal';
 
 const Users = () => {
@@ -9,17 +8,29 @@ const Users = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filterTerm, setFilterTerm] = useState('');
-  const [isCreatingUser, setIsCreatingUser] = useState(false); // 新添加的状态
+  const [isCreatingUser, setIsCreatingUser] = useState(false); // added state for creating user
+  const [debouncedFilterTerm, setDebouncedFilterTerm] = useState(filterTerm);
 
-  // 获取用户列表
+  // set delay search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedFilterTerm(filterTerm);
+    }, 500); // debounce time in milliseconds
+
+    return () => {
+      clearTimeout(timeoutId); // clear timeout when component unmounts
+    };
+  }, [filterTerm]);
+
+  // get all users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         let apiUrl = '/api/user';
 
         // 如果有过滤条件，添加到 API 地址中
-        if (filterTerm) {
-          apiUrl += `?filter=${filterTerm}`;
+        if (debouncedFilterTerm) {
+          apiUrl += `?filter=${debouncedFilterTerm}`;
         }
 
         const response = await fetch(apiUrl);
@@ -31,26 +42,26 @@ const Users = () => {
     };
 
     fetchUsers();
-  }, [filterTerm]); // 当 filterTerm 变化时重新获取用户列表
+  }, [debouncedFilterTerm]); // when the filter term changes
 
-  // 处理编辑用户
+  // dealing with editing
   const handleEditUser = (user) => {
     setEditingUser(user);
     setShowModal(true);
   };
 
-  // 处理取消编辑
+  // dealing with canceling editing
   const handleCancelEdit = () => {
     setEditingUser(null);
     setShowModal(false);
-    setIsCreatingUser(false); // 确保在取消编辑时重置状态
+    setIsCreatingUser(false); // ensure that isCreatingUser is set to false
   };
 
-  // 处理创建用户
+  // dealing with creating
   const handleCreateUser = () => {
-    setIsCreatingUser(true); // 设置为创建用户
+    setIsCreatingUser(true); // set isCreatingUser to true for creating user
 
-    // 设置一个空用户对象，传递给 EditUserModal，同时标记为创建用户
+    // set a empty user object to be edited transfered to EditUserModal
     setEditingUser({
       email: '',
       password: '',
@@ -112,12 +123,12 @@ const Users = () => {
     );
   };
 
-  // 处理保存更改
+  // save changes
   const handleSaveChanges = async (userData) => {
-    // 处理如果是创建用户的情况
+    // deal with creating user or updating user
     if (isCreatingUser) {
       try {
-        setUsers([...users, userData]);
+        setUsers([userData, ...users]);
         handleCloseModal();
       } catch (error) {
         console.error('Error creating user:', error);
@@ -137,20 +148,26 @@ const Users = () => {
     }
   };
 
-  // 处理输入字段的变化
+  // dealing with input field changes
   const handleInputChange = (field, value) => {
-    // 在这里添加处理输入字段变化的逻辑
-    // 可以更新当前编辑用户的相应字段
+    // add logic to handle input field changes
+    // update the editingUser state with the new value
     setEditingUser((prevUser) => ({
       ...prevUser,
       [field]: value,
     }));
   };
 
-  // 渲染用户列表
+  // reader users table
   const renderUsers = () => {
     return (
-      <Table striped bordered hover>
+      <Table
+        striped
+        bordered
+        hover
+        responsive
+        style={{ fontSize: '14px', textAlign: 'center' }}
+      >
         <thead>
           <tr>
             <th>Email</th>
@@ -170,9 +187,13 @@ const Users = () => {
               <td>{user.lastName}</td>
               <td>{user.address}</td>
               <td>{user.postalCode}</td>
-              <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+              <td>{user.isAdmin ? <i class="fa-solid fa-check"></i> : 'No'}</td>
               <td>
-                <Button variant="info" onClick={() => handleEditUser(user)}>
+                <Button
+                  variant="info"
+                  size="sm"
+                  onClick={() => handleEditUser(user)}
+                >
                   <i className="fas fa-edit"></i> Edit
                 </Button>
               </td>
@@ -189,6 +210,7 @@ const Users = () => {
       <div style={{ display: 'flex', alignItems: 'center' }} className="mb-3">
         <Button
           variant="success"
+          size="sm"
           onClick={handleCreateUser}
           style={{
             maxWidth: '150px',
@@ -204,7 +226,7 @@ const Users = () => {
           placeholder="filter users with email address firstName..."
           value={filterTerm}
           onChange={(e) => setFilterTerm(e.target.value)}
-          style={{ marginLeft: '10px' }}
+          style={{ marginLeft: '10px', fontSize: '14px', padding: '5px' }}
         />
       </div>
       {editingUser ? (

@@ -4,14 +4,24 @@ const router = express.Router();
 const {
   addHold,
   getUserHolds,
-  deleteHold,
+  getAllHolds,
+  updateHold,
+  cancelHold,
 } = require('../controllers/holdController');
 const requireAuth = require('../middleware/requireAuth');
 
 router.post('/', requireAuth, addHold);
+
+// get user holds by user id
 router.get('/', requireAuth, getUserHolds);
 
-// delete hold
-router.delete('/:id', requireAuth, deleteHold);
+// get all holds
+router.get('/allHolds', getAllHolds);
+
+// update a hold with id and new data
+router.patch('/:id', requireAuth, updateHold);
+
+// cancel a hold with id
+router.patch('/cancel/:id', requireAuth, cancelHold);
 
 module.exports = router;

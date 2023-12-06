@@ -10,8 +10,8 @@ const HoldDetails = ({ hold }) => {
     if (!user) {
       return;
     }
-    const response = await fetch('/api/hold/' + hold._id, {
-      method: 'DELETE',
+    const response = await fetch('/api/hold/cancel/' + hold._id, {
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${user.token}`,
       },

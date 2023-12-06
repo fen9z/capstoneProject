@@ -5,6 +5,27 @@ const Schema = mongoose.Schema;
 const holdSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+  isCancelled: {
+    type: Boolean,
+    default: false,
+  },
+  isCompleted: {
+    type: Boolean,
+    default: false,
+  },
+  cancelTime: {
+    type: Date,
+    default: null,
+  },
+  whoCancelled: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  messageToUser: {
+    type: String,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
