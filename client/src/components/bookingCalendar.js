@@ -1,6 +1,6 @@
 // fetch('/api/bookings/getBookingsInFuture'), don't use hooks
 import useBookingsInFuture from '../hooks/useBookingsInFuture';
-
+import { useAuthContext } from '../hooks/useAuthContext';
 // I need to confirm the selected date and time in my bookingCalendar.js by clicking on the box in the table
 // Then pass this value to the parent component of bookingCalendar.js pages/booking.js
 import { useState } from 'react'; // import useState
@@ -8,6 +8,7 @@ import { useState } from 'react'; // import useState
 const BookingCalendar = ({ onSetDateTime }) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const { user } = useAuthContext();
 
   // use isLoading from parent component to rerender the component
 
@@ -41,8 +42,8 @@ const BookingCalendar = ({ onSetDateTime }) => {
     <div className="p-5">
       {/* {JSON.stringify(futureBookings)} */}
       <table className="table table-bordered">
-        <thead>
-          <tr>
+        <thead className="table-secondary">
+          <tr style={{ textAlign: 'center', fontSize: '12px' }}>
             <th>Date</th>
             {week.map((day, index) => (
               <th key={index}>{day.date}</th>
@@ -103,6 +104,32 @@ const BookingCalendar = ({ onSetDateTime }) => {
         <span className="selected-time-circle"></span>
         <span>selected</span>
       </p>
+      {futureBookings &&
+        futureBookings.filter((booking) => booking.email === user.email)
+          .length > 0 && (
+          <p
+            style={{
+              textAlign: 'center',
+              marginTop: '10px',
+              marginBottom: '10px',
+              border: '1px solid grey',
+            }}
+          >
+            My next week's booking:
+            {futureBookings &&
+              futureBookings
+                .filter((booking) => booking.email === user.email)
+                .map((booking) => (
+                  <li key={booking.date} style={{ listStyle: 'none' }}>
+                    <i
+                      className="fa-solid fa-calendar-days"
+                      style={{ marginRight: '5px' }}
+                    ></i>
+                    {booking.date.slice(0, 10)} {booking.time}
+                  </li>
+                ))}
+          </p>
+        )}
     </div>
   );
 };

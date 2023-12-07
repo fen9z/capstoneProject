@@ -26,10 +26,16 @@ const WorkoutDetails = ({ workout }) => {
   };
   return (
     <div
+      key={workout._id}
       className="d-flex justify-content-between"
       style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}
     >
-      <div className="md-10">
+      <div
+        className="md-10"
+        style={{
+          fontFamily: 'Poppins',
+        }}
+      >
         <h4 className="mb-1" style={{ color: '#c00' }}>
           {workout.productId.name}
         </h4>
@@ -49,41 +55,48 @@ const WorkoutDetails = ({ workout }) => {
           <strong>price: </strong>
           {workout.productId.price}
         </p>
-        {!workout.isCancelled && (
-          <>
-            <p>
-              <strong>description: </strong>
-              {workout.productId.description}
-            </p>
+        <p>
+          <strong>description: </strong>
+          {workout.productId.description}
+        </p>
 
-            <p>
-              <strong>when hold it: </strong>
-              {formatDistanceToNow(new Date(workout.createdAt), {
-                addSuffix: true,
-              })}
-            </p>
-            <p>
-              <a href={workout.productId.realUrl}>View details</a>
-            </p>
-          </>
-        )}
+        <p>
+          <strong>when hold it: </strong>
+          {formatDistanceToNow(new Date(workout.createdAt), {
+            addSuffix: true,
+          })}
+        </p>
+        <p>
+          <a href={workout.productId.realUrl}>View details</a>
+        </p>
         {workout.isCancelled && (
           <>
+            <i className="fa-solid fa-ban" style={{ color: '#ca0000' }}></i>
             <p
               style={{
                 color: '#ca0000',
                 fontWeight: 'bold',
               }}
             >
-              <i className="fa-solid fa-ban" style={{ color: '#ca0000' }}></i>
               Cancelled
               {workout.whoCancelled.email &&
               workout.whoCancelled.email === user.email
                 ? ' by yourself'
                 : ' by Staff'}
               {' at ' + new Date(workout.cancelTime).toLocaleString()}
-              <i className="fa-solid fa-ban" style={{ color: '#ca0000' }}></i>
             </p>
+            {workout.messageToUser ? (
+              <p style={{ color: '#ca0000' }}>
+                <i
+                  className="fa-solid fa-message"
+                  style={{ marginRight: '5px' }}
+                ></i>
+                {workout.messageToUser}
+              </p>
+            ) : (
+              ''
+            )}
+            <i className="fa-solid fa-ban" style={{ color: '#ca0000' }}></i>
           </>
         )}
       </div>
@@ -94,6 +107,13 @@ const WorkoutDetails = ({ workout }) => {
             alt={workout.productId.name}
             style={{ maxWidth: '150px', maxHeight: '150pxpx' }}
           />
+        )}
+        {workout.isCancelled && (
+          <p style={{ color: '#ca0000' }}>
+            <i className="fa-solid fa-ban"></i>
+            Hold Cancelled
+            <i className="fa-solid fa-ban"></i>
+          </p>
         )}
         <Button
           hidden={workout.isCancelled}

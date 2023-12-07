@@ -53,7 +53,7 @@ const getFutureBookings = async (req, res) => {
       },
       // filter by isCancelled: false
       isCancelled: false,
-    }).select('date time service -_id');
+    }).select('date time service email -_id');
     res.status(200).json(bookings);
   } catch (error) {
     console.error('Error getting bookings:', error.message);
