@@ -24,7 +24,6 @@ const ProductList = ({ category, searchTerm, onShowModal }) => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Product held:', data);
         // refresh products or do something else
         // redirect to another page or show success message
         // 2 seconds delay go to the hold page

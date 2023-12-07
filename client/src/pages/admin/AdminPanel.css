@@ -2,20 +2,22 @@
 .admin-panel {
   margin: -20px;
   display: flex;
-  height: 100vh; /* 使整个页面高度占满视口 */
+  height: 100vh; /* set the height to 100% of the viewport height */
+  font-family: 'Poppins', sans-serif;
 }
 
 .admin-nav {
   width: 200px;
-  padding: 16px;
-  background-color: #2c3e50; /* 调整导航栏背景颜色 */
-  color: #ecf0f1; /* 调整导航栏文本颜色 */
-  display: flex; /* 使用 Flex 布局 */
-  flex-direction: column; /* 垂直方向布局 */
-  align-items: flex-start; /* 垂直方向靠上对齐 */
+  padding-top: 56px;
+  background-color: #2c3e50; /* set the background color */
+  color: #ecf0f1;
+  display: flex;
+  flex-direction: column; /* layout in column */
+  align-items: flex-start;
 }
 
 .admin-nav ul {
+  width: 94%;
   list-style: none;
   padding: 0;
 }
@@ -28,43 +30,44 @@
   text-decoration: none;
   color: #ecf0f1;
   display: flex;
-  align-items: center; /* 居中对齐图标和文本 */
+  align-items: center;
   padding: 10px;
   border-radius: 5px;
   transition: background-color 0.3s;
+}
 
-  /* 调整菜单项样式，加入图标 */
+/* when active the a show transparent background */
+.admin-nav ul li a.active {
+  background-color: rgba(255, 255, 255, 0.2); /* set transparent background */
 }
 
 .admin-nav a i {
-  margin-right: 8px; /* 图标与文本之间的间距 */
+  margin-right: 8px; /* icon and text space */
 }
 
-/* 具体菜单项样式，使用不同的 Font Awesome 图标 */
+/* specify the color of the icon，use different color for Font Awesome icon */
 .admin-nav a#users-link i {
-  color: #3498db; /* 调整图标颜色 */
+  color: #3498db; /* color for Font Awesome icon */
 }
 
 .admin-nav a#holds-link i {
-  color: #e74c3c; /* 调整图标颜色 */
+  color: #e74c3c;
 }
 
 .admin-nav a#bookings-link i {
-  color: #2ecc71; /* 调整图标颜色 */
+  color: #2ecc71;
 }
 
 .admin-nav a#chats-link i {
-  color: #f39c12; /* 调整图标颜色 */
+  color: #f39c12;
 }
 
 .admin-nav a#products-link i {
-  color: #9b59b6; /* 调整图标颜色 */
+  color: #9b59b6;
 }
 
 .admin-content {
   flex: 1;
   padding: 16px;
-  background-color: #ecf0f1; /* 调整内容区域背景颜色 */
+  background-color: #ecf0f1; /* change the background color of the content */
 }
-
-/* 添加更多样式以适应您的需求 */

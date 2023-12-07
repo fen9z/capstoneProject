@@ -186,6 +186,7 @@ const Bookings = () => {
           placeholder="filter Bookings with email, name or phone..."
           value={filterTerm}
           onChange={(e) => setFilterTerm(e.target.value)}
+          autoComplete="off"
           style={{ fontSize: '14px', padding: '5px' }}
         />
       </div>

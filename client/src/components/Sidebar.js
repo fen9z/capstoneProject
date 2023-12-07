@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState('');
+
+  useEffect(() => {
+    // Extract the first part of the pathname (excluding the /admin/ part)
+    setActiveMenu(
+      new URLSearchParams(location.search).get('category') || 'all'
+    );
+  }, [location.search]);
 
   const handleCategoryClick = (category) => {
     // Parse the current search params
@@ -20,13 +28,17 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="bg-light p-4">
+    <div className="bg-light p-4" style={{ textAlign: 'center' }}>
       <h3 className="mb-4">Categories</h3>
-      <ul className="list-unstyled">
+      <ul className="list-unstyled" style={{ widh: '100%' }}>
         <li className="mb-2">
           <button
             onClick={() => handleCategoryClick('laptop')}
-            className="btn btn-light btn-block text-dark text-decoration-none hover-text-primary"
+            className={
+              activeMenu === 'laptop'
+                ? 'active'
+                : 'btn btn-light btn-block text-dark text-decoration-none hover-text-primary'
+            }
           >
             Laptops
           </button>
@@ -34,7 +46,11 @@ const Sidebar = () => {
         <li className="mb-2">
           <button
             onClick={() => handleCategoryClick('mobile')}
-            className="btn btn-light btn-block text-dark text-decoration-none hover-text-primary"
+            className={
+              activeMenu === 'mobile'
+                ? 'active'
+                : 'btn btn-light btn-block text-dark text-decoration-none hover-text-primary'
+            }
           >
             Mobiles
           </button>
@@ -42,7 +58,11 @@ const Sidebar = () => {
         <li className="mb-2">
           <button
             onClick={() => handleCategoryClick('furniture')}
-            className="btn btn-light btn-block text-dark text-decoration-none hover-text-primary"
+            className={
+              activeMenu === 'furniture'
+                ? 'active'
+                : 'btn btn-light btn-block text-dark text-decoration-none hover-text-primary'
+            }
           >
             Furniture
           </button>

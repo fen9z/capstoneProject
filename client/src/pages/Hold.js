@@ -3,7 +3,7 @@ import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 // components
 import WorkoutDetails from '../components/WorkoutDetails';
-import WorkoutForm from '../components/WorkoutForm';
+// import WorkoutForm from '../components/WorkoutForm';
 
 const Hold = () => {
   const { workouts, dispatch } = useWorkoutsContext();
@@ -27,15 +27,20 @@ const Hold = () => {
   }, [dispatch, user]);
 
   return (
-    <div className="hold">
-      <div className="workouts">
-        <h4 style={{ textAlign: 'center' }}>Hold List</h4>
+    <div className="workouts">
+      <h4 style={{ textAlign: 'center' }}>Hold List</h4>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '16px',
+        }}
+      >
         {workouts &&
           workouts.map((workout) => (
             <WorkoutDetails workout={workout} key={workout._id} />
           ))}
       </div>
-      <WorkoutForm />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 // Product.js
-import React, { useState } from 'react';
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import ProductList from '../components/ProductList';
 import SearchBar from '../components/SearchBar';
@@ -9,10 +9,21 @@ import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 
 const Product = () => {
   // get the search term from the URL
-  const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get('search');
+  const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterTerm, setFilterTerm] = useState('all');
   const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    // excute when the component is mounted or updated
+    setSearchTerm(new URLSearchParams(location.search).get('search') || '');
+    setFilterTerm(
+      new URLSearchParams(location.search).get('category') || 'all'
+    );
+    return () => {
+      // clear up
+    };
+  }, [location.search]);
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -23,7 +34,12 @@ const Product = () => {
 
   return (
     <Container className="mt-4">
-      <SearchBar searchTerm={searchTerm} />
+      <SearchBar
+        searchTerm={searchTerm}
+        filterTerm={filterTerm}
+        setFilterTerm={setFilterTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <Filter />
       <Row>
         <Col md={3}>
@@ -37,7 +53,7 @@ const Product = () => {
               path="/"
               element={
                 <ProductList
-                  category="all"
+                  category={filterTerm}
                   searchTerm={searchTerm}
                   onShowModal={handleShowModal}
                 />
@@ -47,7 +63,7 @@ const Product = () => {
               path="laptop"
               element={
                 <ProductList
-                  category="laptop"
+                  category={filterTerm}
                   searchTerm={searchTerm}
                   onShowModal={handleShowModal}
                 />
@@ -57,7 +73,7 @@ const Product = () => {
               path="mobile"
               element={
                 <ProductList
-                  category="mobile"
+                  category={filterTerm}
                   searchTerm={searchTerm}
                   onShowModal={handleShowModal}
                 />
@@ -67,7 +83,7 @@ const Product = () => {
               path="furniture"
               element={
                 <ProductList
-                  category="furniture"
+                  category={filterTerm}
                   searchTerm={searchTerm}
                   onShowModal={handleShowModal}
                 />
@@ -80,6 +96,7 @@ const Product = () => {
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Body>
           <h4>Product held successfully!</h4>
+          <i class="fa-solid fa-circle-check"></i>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

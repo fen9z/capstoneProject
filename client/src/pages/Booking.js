@@ -108,7 +108,7 @@ const Booking = () => {
   return (
     <Container
       className="d-flex  justify-content-start align-items-start p-4"
-      style={{ width: '100%', height: '100vh' }}
+      style={{ width: '100%', height: '100vh', fontFamily: 'Poppins' }}
     >
       <div className="p-4" style={{ width: '40%' }}>
         <form onSubmit={handleSubmit}>
@@ -122,6 +122,7 @@ const Booking = () => {
               className="form-control"
               placeholder="Enter Fname"
               style={{ border: '1px solid grey' }}
+              autoComplete="off"
               required
             />
           </div>
@@ -134,6 +135,7 @@ const Booking = () => {
               value={lastName}
               className="form-control "
               placeholder="Enter Lname"
+              autoComplete="off"
               style={{ border: '1px solid grey' }}
               required
             />
@@ -147,6 +149,7 @@ const Booking = () => {
               value={email}
               className="form-control "
               placeholder="Enter email"
+              autoComplete="off"
               style={{ border: '1px solid grey' }}
               required
             />
@@ -160,6 +163,7 @@ const Booking = () => {
               value={phone}
               className="form-control "
               placeholder="Enter phone"
+              autoComplete="off"
               style={{ border: '1px solid grey' }}
               required
             />
@@ -195,6 +199,7 @@ const Booking = () => {
               className="form-control inpt"
               placeholder="select from calendar"
               style={{ border: '1px solid grey' }}
+              autoComplete="off"
               required
             />
           </div>
@@ -211,6 +216,7 @@ const Booking = () => {
               className="form-control inpt"
               placeholder="select from calendar"
               style={{ border: '1px solid grey' }}
+              autoComplete="off"
               required
             />
           </div>

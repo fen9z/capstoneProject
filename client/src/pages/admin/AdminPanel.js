@@ -1,5 +1,6 @@
 // AdminPanel.js
-import { Link, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Users from './User/Users';
 import Holds from './Hold/Holds';
 import Bookings from './Booking/Bookings';
@@ -10,6 +11,14 @@ import './AdminPanel.css';
 
 const AdminPanel = () => {
   const { user } = useAuthContext();
+  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState('');
+
+  useEffect(() => {
+    // Extract the first part of the pathname (excluding the /admin/ part)
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    setActiveMenu(pathParts[1]);
+  }, [location.pathname]);
 
   // Check if user is an admin, otherwise redirect
   if (!user || !user.isAdmin) {
@@ -21,33 +30,43 @@ const AdminPanel = () => {
       <nav className="admin-nav">
         <ul>
           <li>
-            <Link to="/admin/users" id="users-link">
+            <Link
+              to="/admin/users"
+              id="users-link"
+              className={activeMenu === 'users' ? 'active' : ''}
+            >
               <i className="fas fa-user"></i>
               Users
             </Link>
           </li>
           <li>
-            <Link to="/admin/holds" id="holds-link">
+            <Link
+              to="/admin/holds"
+              id="holds-link"
+              className={activeMenu === 'holds' ? 'active' : ''}
+            >
               <i className="fas fa-box"></i>
               Holds
             </Link>
           </li>
           <li>
-            <Link to="/admin/bookings" id="bookings-link">
+            <Link
+              to="/admin/bookings"
+              id="bookings-link"
+              className={activeMenu === 'bookings' ? 'active' : ''}
+            >
               <i className="fas fa-calendar"></i>
               Bookings
             </Link>
           </li>
           <li>
-            <Link to="/admin/products" id="products-link">
+            <Link
+              to="/admin/products"
+              id="products-link"
+              className={activeMenu === 'products' ? 'active' : ''}
+            >
               <i className="fas fa-boxes"></i>
               Products
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/chats" id="chats-link">
-              <i className="fas fa-comments"></i>
-              Chats
             </Link>
           </li>
         </ul>
