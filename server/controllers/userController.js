@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 // create token for login and signup
 const createToken = (_id) => {
@@ -107,6 +108,44 @@ const createUser = async (req, res) => {
   }
 };
 
+// create user on chatengine server with email and password
+// need headers provate-key
+const signupChatEngineUser = async (req, res) => {
+  // Store a user-copy on Chat Engine!
+  try {
+    const r = await axios.post(
+      'https://api.chatengine.io/users/',
+      {
+        ...req.body,
+      },
+      { headers: { 'Private-Key': '567c9897-f0d1-4a92-94bd-dca93e0de6bd' } }
+    );
+    return res.status(r.status).json(r.data);
+  } catch (e) {
+    return res.status(e.response.status).json(e.response.data);
+  }
+};
+
+// login in chatengine server
+const loginChatEngineUser = async (req, res) => {
+  const { username, sercret } = req.body;
+  // Fetch this user from Chat Engine in this project!
+  try {
+    const r = await axios.put(
+      'https://api.chatengine.io/users/',
+      { username, sercret },
+      { headers: { 'private-key': '567c9897-f0d1-4a92-94bd-dca93e0de6bd' } }
+    );
+    return res.status(r.status).json(r.data);
+  } catch (e) {
+    return res.status(e.response.status).json(e.response.data);
+  }
+};
+
+module.exports = {
+  loginChatEngineUser,
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -114,4 +153,6 @@ module.exports = {
   getUserInfo,
   updateUserById,
   createUser,
+  signupChatEngineUser,
+  loginChatEngineUser,
 };

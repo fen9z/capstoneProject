@@ -8,6 +8,8 @@ const {
   getUserInfo,
   updateUserById,
   createUser,
+  signupChatEngineUser,
+  loginChatEngineUser,
 } = require('../controllers/userController');
 const requireAuth = require('../middleware/requireAuth');
 const { updateMany } = require('../models/userModel');
@@ -31,5 +33,11 @@ router.patch('/:id', requireAuth, updateUserById);
 
 // create a new user
 router.post('/', requireAuth, createUser);
+
+// signup chat engine user
+router.post('/signupChatEngine', signupChatEngineUser);
+
+// login chat engine user
+router.post('/loginChatEngine', loginChatEngineUser);
 
 module.exports = router;
