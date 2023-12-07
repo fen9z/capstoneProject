@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSignup } from '../hooks/useSignup';
-import '../style/styles.css'
-
+import axios from 'axios';
+import '../style/styles.css';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -17,11 +17,22 @@ const Signup = () => {
 
     // console.log(email, password);
     await signup(email, password, firstName, lastName, address, postalCode);
+
+    // same time signup user to chatengine server
+    await axios
+      .post('/api/user/signupChatEngine', {
+        username: email,
+        secret: email,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+      })
+      .catch((e) => console.log(JSON.stringify(e.response.data)));
   };
 
   return (
     <form className="signup" onSubmit={handleSubmit}>
-      <h3 style={{color:"#c00", textAlign:"center"}}>Sign Up</h3>
+      <h3 style={{ color: '#c00', textAlign: 'center' }}>Sign Up</h3>
 
       <label>Email address:</label>
       <input
@@ -64,7 +75,9 @@ const Signup = () => {
         value={postalCode}
       />
 
-      <button className='mt-2 btns'  disabled={isLoading}>Sign up</button>
+      <button className="mt-2 btns" disabled={isLoading}>
+        Sign up
+      </button>
       {error && <div className="error">{error}</div>}
     </form>
   );
