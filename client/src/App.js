@@ -5,7 +5,7 @@ import { useAuthContext } from './hooks/useAuthContext';
 import Home from './pages/Home';
 import Hold from './pages/Hold';
 import Booking from './pages/Booking';
-import Chat from './pages/Chat/Chat';
+import Chat from './pages/Chat';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminPanel from './pages/admin/AdminPanel';

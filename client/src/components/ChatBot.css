@@ -1,0 +1,64 @@
+/* client/src/components/ChatBot.css */
+.chat-window {
+  width: 100%; /* 让宽度充满父级的宽度 */
+  height: 70vh; /* 让高度占据整个视口高度 */
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin: 0 -20px;
+  border-radius: 28px;
+  border: 8px solid #ca0000;
+  padding: 10px;
+}
+
+/* 不同的 sender 有不同的颜色 */
+.message-bubble {
+  clear: both;
+  display: inline-block; /* 让聊天气泡根据实际 message 宽度适应 */
+  max-width: 70%; /* 控制聊天气泡的最大宽度 */
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  word-wrap: break-word;
+}
+
+.bot {
+  background-color: #ffe6e6;
+  float: left;
+}
+
+.user {
+  background-color: #a1d4db;
+  float: right;
+}
+
+.message-input {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+}
+
+.form-control {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* client/src/components/ChatBot.css */
+/* ... previous styles ... */
+
+/* Style the scrollbar */
+.chat-window::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+  background-color: #a1d4db; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+}
+
+.chat-window::-webkit-scrollbar-track {
+  background-color: #ffffff; /* Color of the scrollbar track */
+  border-radius: 10px;
+  margin: 14px 0;
+}
+
+/* ... remaining styles ... */

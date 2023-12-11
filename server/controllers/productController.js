@@ -33,6 +33,18 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+// get get new 3 products
+// get new 3 products
+const threeNewProducts = async (req, res) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 }).limit(3);
+    console.log(products);
+    return res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 // get a single product
 const getProductById = async (req, res) => {
   const productId = req.params.productId;
@@ -109,4 +121,5 @@ module.exports = {
   addProduct,
   allProducts,
   updateProduct,
+  threeNewProducts,
 };
