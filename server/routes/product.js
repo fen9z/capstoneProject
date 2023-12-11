@@ -7,6 +7,7 @@ const {
   addProduct,
   allProducts,
   updateProduct,
+  threeNewProducts,
 } = require('../controllers/productController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -17,6 +18,9 @@ router.get('/', requireAuth, getAllProducts);
 router.post('/', requireAuth, addProduct);
 
 router.get('/all', allProducts);
+
+// get 3 new products
+router.get('/threeNewProducts', requireAuth, threeNewProducts);
 
 router.get('/:productId', requireAuth, getProductById);
 
