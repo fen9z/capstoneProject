@@ -19,7 +19,7 @@ const createWebSocketServer = () => {
 
     // Send the number of connected clients to all clients
     if (!connectionSuccessSent) {
-      socket.send(`Welcome, you are connected as user: ${clientId}`);
+      // socket.send(`Welcome, you are connected as user: ${clientId}`);
       connectionSuccessSent = true;
     }
 
@@ -29,6 +29,14 @@ const createWebSocketServer = () => {
       console.log(
         `Received message from WebSocket client ${clientId}: ${message}`
       );
+      try {
+        if (message.toString().endsWith('connected')) {
+          socket.send(message.toString());
+        }
+        // Handle other types of messages if needed...
+      } catch (error) {
+        console.error('Error parsing JSON message:', error);
+      }
       // Handle the WebSocket message as needed
       broadcastMessage(message, clientId);
     });
@@ -39,7 +47,7 @@ const createWebSocketServer = () => {
       clients.delete(clientId);
 
       // Broadcast the updated list of connected clients
-      broadcastMessage(getConnectedUsers(), clientId);
+      // broadcastMessage(getConnectedUsers(), clientId);
     });
   });
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSignup } from '../hooks/useSignup';
-import axios from 'axios';
+// import axios from 'axios';
 import '../style/styles.css';
 
 const Signup = () => {
@@ -19,15 +19,15 @@ const Signup = () => {
     await signup(email, password, firstName, lastName, address, postalCode);
 
     // same time signup user to chatengine server
-    await axios
-      .post('/api/user/signupChatEngine', {
-        username: email,
-        secret: email,
-        email,
-        first_name: firstName,
-        last_name: lastName,
-      })
-      .catch((e) => console.log(JSON.stringify(e.response.data)));
+    // await axios
+    //   .post('/api/user/signupChatEngine', {
+    //     username: email,
+    //     secret: email,
+    //     email,
+    //     first_name: firstName,
+    //     last_name: lastName,
+    //   })
+    //   .catch((e) => console.log(JSON.stringify(e.response.data)));
   };
 
   return (

@@ -1,19 +1,23 @@
 // client/src/components/ChatRealTime.js
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const ChatRealTime = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const { user } = useAuthContext();
   const webSocketRef = useRef(null);
   const chatWindowRef = useRef(null);
 
   useEffect(() => {
+    const userEmail = user?.email;
     // Establish WebSocket connection
     const newWebSocket = new WebSocket('ws://localhost:3001');
 
     newWebSocket.addEventListener('open', () => {
       console.log('WebSocket connection opened.');
+      newWebSocket.send(`${userEmail} connected`);
     });
 
     // Save the WebSocket object in ref
@@ -36,7 +40,7 @@ const ChatRealTime = () => {
       newWebSocket.removeEventListener('message', handleWebSocketMessage);
       newWebSocket.close();
     };
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, [user]); // Empty dependency array means this effect runs once after the initial render
 
   useEffect(() => {
     if (chatWindowRef.current) {
@@ -53,7 +57,7 @@ const ChatRealTime = () => {
     // Check if the WebSocket connection is open
     if (webSocketRef.current.readyState === WebSocket.OPEN) {
       // Send the new message to the WebSocket server
-      webSocketRef.current.send(newMessage);
+      webSocketRef.current.send(user.email + ': ' + newMessage);
     } else {
       console.error('WebSocket connection is not open.');
       // Handle the case where the WebSocket connection is not open
