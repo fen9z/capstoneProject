@@ -25,7 +25,7 @@ const SearchBar = () => {
         <input
           type="text"
           className="form-control"
-          placeholder="Search Store"
+          placeholder="Search Products"
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
           value={inputValue}
