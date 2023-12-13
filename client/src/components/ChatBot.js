@@ -289,11 +289,239 @@ const ChatBot = ({ onSwitchToRealTime }) => {
           },
         ]);
         break;
+      case 'delivery':
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: (
+              <div
+                className="tab-pane fade cat-2 active show"
+                id="category-360001704992"
+                role="tabpanel"
+                aria-labelledby="#category-360001704992"
+              >
+                <h3 className="mt-0">Shipping &amp; Delivery</h3>
+                <div className="section" id="section-360006954771">
+                  <ul className="list-unstyled mb-4">
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/1500011073161-How-do-I-track-an-order-"
+                      >
+                        How do I track an order?
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026206871-Shipping-Delivery-Policy-"
+                      >
+                        Shipping &amp; Delivery Policy{' '}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <h3 className="mt-0">Shipping &amp; Delivery FAQ</h3>
+                <div className="section" id="section-1500001098821">
+                  <ul className="list-unstyled mb-4">
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360043605771-Why-are-some-items-missing-from-my-order-"
+                      >
+                        Why are some items missing from my order?
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360041984812-What-are-your-delivery-times-"
+                      >
+                        What are your delivery times?
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360043032932-Can-I-arrange-for-my-delivery-at-a-specific-time-"
+                      >
+                        Can I arrange for my delivery at a specific time?
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026206411-Can-I-have-an-order-shipped-to-the-store-rather-than-my-home-or-office-"
+                      >
+                        Can I have an order shipped to the store, rather than my
+                        home or office?
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026206311-How-do-I-get-a-receipt-or-invoice-for-my-online-purchase-"
+                      >
+                        How do I get a receipt or invoice for my online
+                        purchase?
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026206111-I-m-buying-furniture-Can-Staples-assemble-it-for-me-"
+                      >
+                        I'm buying furniture. Can Staples assemble it for me?
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ),
+            sender: 'bot',
+          },
+        ]);
+        break;
+      case 'payment':
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: (
+              <div
+                className="tab-pane fade cat-9 active show"
+                id="category-360001704972"
+                role="tabpanel"
+                aria-labelledby="#category-360001704972"
+              >
+                <h3 className="mt-0">Eco Fees</h3>
+                <div className="section" id="section-360004071731">
+                  <ul className="list-unstyled mb-4">
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026193691-Why-am-I-being-charged-an-eco-fee-"
+                      >
+                        Why am I being charged an eco-fee?{' '}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <h3 className="mt-0">Sales Tax</h3>
+                <div className="section" id="section-360004064772">
+                  <ul className="list-unstyled mb-4">
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360025901212-How-do-I-apply-for-a-tax-exempt-account-"
+                      >
+                        How do I apply for a tax-exempt account?
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <h3 className="mt-0">Payment Options</h3>
+                <div className="section" id="section-360004071711">
+                  <ul className="list-unstyled mb-4">
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026193311-Can-I-get-a-discount-if-I-order-large-quantities-of-an-item-"
+                      >
+                        Can I get a discount if I order large quantities of an
+                        item?{' '}
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360025900812-Why-was-my-coupon-applied-to-multiple-items-or-the-wrong-item-"
+                      >
+                        Why was my coupon applied to multiple items or the wrong
+                        item?{' '}
+                      </a>
+                    </li>
+
+                    <li className="article mb-2">
+                      <a
+                        htarget="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360026193171-What-methods-of-payment-does-Staples-accept-"
+                      >
+                        What methods of payment does Staples accept?{' '}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <h3 className="mt-0">Payment History</h3>
+                <div className="section" id="section-360004065012">
+                  <ul className="list-unstyled mb-4">
+                    <li className="article mb-2">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://help.staples.ca/hc/en-us/articles/360043026472-My-order-has-been-cancelled-but-I-still-have-a-charge-on-my-credit-card-"
+                      >
+                        My order has been cancelled, but I still have a charge
+                        on my credit card?
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ),
+            sender: 'bot',
+          },
+        ]);
+        break;
+      case 'liveChat':
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: 'Do you need real time help?',
+            sender: 'bot',
+          },
+          {
+            text: (
+              <button
+                className="btn btn-primary"
+                onClick={onSwitchToRealTime}
+                style={{ marginLeft: '10px' }}
+              >
+                Yes, open real time chat
+              </button>
+            ),
+            sender: 'bot',
+          },
+        ]);
+        break;
       default:
         setMessages((prevMessages) => [
           ...prevMessages,
           {
-            text: "I'm here to assist you. How can I help you today?",
+            text: "Sorry, I didn't understand what you meant, please provide more details and I will try my best to help you",
             sender: 'bot',
           },
         ]);

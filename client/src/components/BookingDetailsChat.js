@@ -87,13 +87,13 @@ const BookingCalendarChat = ({ onSetDateTime }) => {
       </table>
       <p className="calendar-status">
         <span className="available-time-circle"></span>
-        <span>available</span>
+        <span>Available time</span>
 
         <span className="disabled-time-circle"></span>
-        <span>disabled</span>
+        <span>Other people's bookings</span>
 
         <span className="selected-time-circle"></span>
-        <span>my selected</span>
+        <span>my booking</span>
       </p>
       {futureBookings &&
         futureBookings.filter((booking) => booking.email === user.email)

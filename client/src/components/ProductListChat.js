@@ -59,7 +59,6 @@ const ProductListChat = ({ category = 'all', searchTerm }) => {
                   </p>
                   <p className="mb-1">
                     <strong>storage</strong>: {product.storageNumber}
-                    <strong> holded</strong>: {product.holdedNumber}
                   </p>
                   <p></p>
                   {/* Add more product details as needed */}

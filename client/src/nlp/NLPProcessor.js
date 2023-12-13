@@ -89,6 +89,18 @@ class NLPProcessor {
       lowerCaseInput.includes('gift')
     ) {
       return { intent: 'discount' };
+    } else if (lowerCaseInput.includes('delivery')) {
+      return { intent: 'delivery' };
+    } else if (
+      lowerCaseInput.includes('payment') ||
+      lowerCaseInput.includes('pay')
+    ) {
+      return { intent: 'payment' };
+    } else if (
+      lowerCaseInput.includes('live') ||
+      lowerCaseInput.includes('chat')
+    ) {
+      return { intent: 'liveChat' };
     } else {
       return { intent: 'default' };
     }
